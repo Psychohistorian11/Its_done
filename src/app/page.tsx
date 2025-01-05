@@ -35,11 +35,11 @@ export default function Home() {
             Log in
           </Link>
           
-          <a
+          <Link href="register"
             className="rounded-lg border border-solid bg-gray-300 transition-colors flex items-center 
             justify-center hover:bg-gray-600 hover:text-white hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-40">
             Sign up
-          </a>
+          </Link>
         </div>
 
       </main>
