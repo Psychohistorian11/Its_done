@@ -11,11 +11,11 @@ export async function POST(request: NextRequest){
             username: data.username
         }
     })
-
     if(usernameFound){
         return NextResponse.json({
             message: "username already exist"
-        },{
+        }, 
+        {
             status: 400
         })
     }
@@ -35,12 +35,13 @@ export async function POST(request: NextRequest){
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 10)
+
     const newUser = await prismadb.user.create({
         data : {
             username: data.username,
             email: data.email,
             password: hashedPassword,
-            ...(data.imageUrl && { image: data.imageUrl })
+            ...(data.image && { image: data.image })
         }
     })
 
