@@ -13,17 +13,11 @@ import { auth, signIn } from "@/auth"
 import GoogleService from "./common/googleService"
 import GithubService from "./common/githubService"
 import Link from "next/link"
-import { isRegistered as checkRegistration } from "@/app/api/auth/services/route"; 
 
 export default async function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-
-  const session = await auth()
-  if(session) await checkRegistration(session.user)
-    
-  
 
   return (
     <div className={cn("flex flex-col gap-6 ", className)} {...props}>

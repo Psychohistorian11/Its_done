@@ -9,7 +9,6 @@ import { useForm } from "react-hook-form"
 import { useState } from "react"
 import UserRegister from "@/interfaces/user"
 import { useRouter } from "next/navigation"
-import { signIn } from "@/auth"
 import GoogleService from "./common/googleService"
 import GithubService from "./common/githubService"
 
