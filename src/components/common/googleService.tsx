@@ -1,8 +1,6 @@
-'use client'
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Button } from '../ui/button';
-import { useRouter } from 'next/navigation';
 import { handleGoogleSignIn } from '@/app/api/auth/services/route';
 
 interface ChildProps {
@@ -10,41 +8,18 @@ interface ChildProps {
   }
 
 const GoogleService: React.FC<ChildProps> = ({login}) => {
-  
-  const router = useRouter();
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      registered();
-    }
-  }, []);
-  
-  const registered = async () => {
-      try{
-        const response = await fetch('/api/auth/googlesignin', {
-          method: 'POST'});
-  
-        const { registered } = await response.json();
-  
-        if (registered) {
-          router.push('/dashboard');
-        } else {
-          console.log("nada")
-        }
-      }catch (error) {
+
+
+  function handleSignIn() {
+    handleGoogleSignIn()
+      .then(() => {
+        // Handle successful sign-in
+      })
+      .catch((error) => {
         console.error('Error during sign-in:', error);
-      }
-      
-  }
-
-  async function handleSignIn(){
-    try {
-      await handleGoogleSignIn()
-      
-
-    } catch (error) {
-      console.error('Error during sign-in:', error);
-    }
+      });
   };
+
   return (
     <div>
         <Button 

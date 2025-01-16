@@ -198,6 +198,7 @@ export function RegisterForm({
               <div className="grid grid-cols-2 gap-4">
                 
               <GithubService login={false} />
+              
               <GoogleService login={false} />
               </div>
 

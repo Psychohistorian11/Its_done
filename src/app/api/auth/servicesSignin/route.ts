@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
-import { signIn, auth } from '@/auth';
-import prismadb from '@/lib/prismadb';
+import { auth } from '../../../../auth';
+import { prisma } from '../../../../../prisma/prisma';
 
 export async function POST() {
 
-    console.log("estoy en el POST")
     const session: any = await auth();
     if (!session || !session.user) {
       return NextResponse.json({ error: 'No session found' }, { status: 401 });
@@ -12,7 +11,7 @@ export async function POST() {
 
     const { name, email, image } = session.user;
 
-    const userExists = await prismadb.user.findFirst({
+    const userExists = await prisma.user.findFirst({
       where: {
         OR: [{ username: name }, { email }],
       },
@@ -24,7 +23,7 @@ export async function POST() {
     }
 
 
-    await prismadb.user.create({
+    await prisma.user.create({
       data: {
         username: name,
         email,

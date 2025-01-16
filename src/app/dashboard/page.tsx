@@ -1,12 +1,15 @@
-import { auth } from "@/auth";
+
 import DashBoard from "@/components/dashboard";
+import { auth } from "../../auth";
 
-export default async function DashBoardPage() {
-    const session = await auth()
-    console.log("estamos here", session)
-    if(!session) return <div>here not</div>
+export default function DashBoardPage() {
+    auth().then((res) => {
 
-    return <div>
-        <DashBoard/>
-    </div>
+    })
+    
+    return (
+        <div>
+            DashboardPage
+        </div>
+    )
 }

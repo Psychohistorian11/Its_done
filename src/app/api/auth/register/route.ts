@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from 'bcrypt';
-import prismadb from '@/lib/prismadb'
+import bcrypt from 'bcryptjs';
+import prismadb from '@/lib/prismadb';
 
 export async function POST(request: NextRequest){
     const data = await request.json()
-    console.log("data front: ", data)
-
     const usernameFound = await prismadb.user.findUnique({
         where: {
             username: data.username

@@ -1,15 +1,18 @@
 "use server"
 
-import {signIn } from "@/auth";
+import {signIn, signOut } from "../../../../auth";
 
 
 export async function handleGoogleSignIn() {
-  const result = await signIn("google", {redirect: true});
-  return result
+  await signIn("google", {redirect: true, redirectTo: '/dashboard'});
 }
+
 
 export async function handleGithubSignIn() {
-  await signIn("github");
+  await signIn("github", {redirect: true, redirectTo: '/dashboard'});
 }
 
+export async function handleSignOut(){
+  await signOut();
+}
 

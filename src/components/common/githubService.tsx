@@ -1,8 +1,6 @@
-'use client'
 
 import React from 'react'
 import { Button } from '../ui/button'
-import { signIn } from '@/auth'
 import { handleGithubSignIn } from '@/app/api/auth/services/route';
 
 interface ChildProps {
@@ -10,12 +8,21 @@ interface ChildProps {
   }
 
 const GithubService: React.FC<ChildProps> = ({login}) => {
+
+  function handleSignIn() {
+    handleGithubSignIn()
+      .then(() => {
+        // Handle successful sign-in
+      })
+      .catch((error) => {
+        console.error('Error during sign-in:', error);
+      });
+  };
+
   return (
     <div>
         <Button 
-                onClick={async () => {
-                  await handleGithubSignIn();
-                }}
+                onClick={handleSignIn}
                 variant="outline" 
                 className="w-full">
                 <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-github ">

@@ -1,12 +1,9 @@
-import NextAuth from "next-auth"
-import Google from "next-auth/providers/google"
-import GitHub from "next-auth/providers/github"
+import NextAuth from "next-auth";
+import authConfig from "./auth.config";
+import { getUserById } from "@/app/api/auth/data/user";
 
- 
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  
-  providers: [Google,
-            GitHub],
+export const { auth, handlers, signIn, signOut} = NextAuth({
+  session: {strategy: "jwt"},
+  ...authConfig,
 
-            
-}) 
+});

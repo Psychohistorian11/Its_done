@@ -21,7 +21,7 @@ const data = {
   user: {
     name: "shadcn",
     email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    image: "/avatars/shadcn.jpg",
   },
   calendars: [
     {
