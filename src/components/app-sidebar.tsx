@@ -1,9 +1,10 @@
-import * as React from "react"
-import { Plus } from "lucide-react"
+"use client"
+import {useState, useEffect } from "react";
+import { Plus } from "lucide-react";
 
-import { Calendars } from "@/components/calendars"
-import { DatePicker } from "@/components/date-picker"
-import { NavUser } from "@/components/nav-user"
+import { Calendars } from "@/components/calendars";
+import { DatePicker } from "@/components/date-picker";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -14,32 +15,61 @@ import {
   SidebarMenuItem,
   SidebarRail,
   SidebarSeparator,
-} from "@/components/ui/sidebar"
-
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    image: "/avatars/shadcn.jpg",
-  },
-  calendars: [
-    {
-      name: "My Calendars",
-      items: ["Personal", "Work", "Family"],
-    },
-    {
-      name: "Favorites",
-      items: ["Holidays", "Birthdays"],
-    },
-    {
-      name: "Other",
-      items: ["Travel", "Reminders", "Deadlines"],
-    },
-  ],
-}
+} from "@/components/ui/sidebar";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  // Estado inicial para el usuario
+  const [user, setUser] = useState({
+    name: "It's Done",
+    email: "m@example.com",
+    image: "",
+  });
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch("/api/auth/data-user", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+  
+        const data = await response.json(); // Espera la resolución de la promesa
+        console.log("User data:", data);
+  
+        // Actualiza el estado con los datos del usuario
+        setUser(data);
+      } catch (error) {
+        console.error("Error fetching user session:", error);
+      }
+    };
+  
+    fetchUser();
+  }, []); //
+
+  const data = {
+    user,
+    calendars: [
+      {
+        name: "My Calendars",
+        items: ["Personal", "Work", "Family"],
+      },
+      {
+        name: "Favorites",
+        items: ["Holidays", "Birthdays"],
+      },
+      {
+        name: "Other",
+        items: ["Travel", "Reminders", "Deadlines"],
+      },
+    ],
+  };
+
   return (
     <Sidebar {...props}>
       <SidebarHeader className="h-16 border-b border-sidebar-border">
@@ -62,5 +92,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

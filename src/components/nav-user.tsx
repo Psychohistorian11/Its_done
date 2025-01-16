@@ -42,8 +42,8 @@ export function NavUser({
 }) {
 
   const router = useRouter()
+
   const handleLogOut = async () => {
-    router.push("login")
     await handleSignOut()
   }
   const { isMobile } = useSidebar()

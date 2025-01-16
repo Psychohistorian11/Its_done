@@ -1,4 +1,7 @@
+import { auth } from '@/auth';
 import prismadb from '@/lib/prismadb';
+import exp from 'constants';
+import { NextResponse } from 'next/server';
 
 export const getUserById = async (id: string) => {
     try{
@@ -12,5 +15,15 @@ export const getUserById = async (id: string) => {
         console.log(err)
         return null
         
+    }
+}
+
+export async function GET(){
+    try{
+        const session = await auth()
+        return NextResponse.json(session!.user!)
+    } catch (err){
+        console.log(err)
+        return null
     }
 }
