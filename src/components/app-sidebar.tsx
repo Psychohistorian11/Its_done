@@ -1,4 +1,5 @@
 "use client"
+
 import {useState, useEffect } from "react";
 import { Plus } from "lucide-react";
 
@@ -20,7 +21,7 @@ import {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   // Estado inicial para el usuario
   const [user, setUser] = useState({
-    name: "It's Done",
+    name: "It's Done  ",
     email: "m@example.com",
     image: "",
   });
@@ -39,10 +40,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           throw new Error("Failed to fetch user data");
         }
   
-        const data = await response.json(); // Espera la resolución de la promesa
+        const data = await response.json();
         console.log("User data:", data);
   
-        // Actualiza el estado con los datos del usuario
         setUser(data);
       } catch (error) {
         console.error("Error fetching user session:", error);
