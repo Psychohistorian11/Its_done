@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/sidebar";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  // Estado inicial para el usuario
+
   const [user, setUser] = useState({
     name: "It's Done  ",
     email: "m@example.com",
@@ -41,7 +41,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         }
   
         const data = await response.json();
-        console.log("User data:", data);
   
         setUser(data);
       } catch (error) {
@@ -50,7 +49,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     };
   
     fetchUser();
-  }, []); //
+  }, []); 
 
   const data = {
     user,
