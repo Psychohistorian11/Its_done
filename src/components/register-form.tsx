@@ -17,7 +17,7 @@ export function RegisterForm({
   ...props
 }: React.ComponentProps<"div">) {
   
-  const {register, handleSubmit, formState:{errors}, setError, clearErrors} = useForm()
+  const {register, handleSubmit, formState:{errors}, setError} = useForm()
   const [file, setFile] = useState<any>(null)
   const [serverError, setServerError] = useState('');
     const [imageUrl, setImageUrl] = useState('')
@@ -122,7 +122,7 @@ export function RegisterForm({
                 />
                 {
                   errors.username && (
-                    <span className="text-orange-400 text-xs">{errors.username.message?.toString()}</span>
+                    <span className="">{errors.username.message?.toString()}</span>
                   )
                 }
 
@@ -143,7 +143,7 @@ export function RegisterForm({
                 />
                 {
                   errors.email && (
-                    <span className="text-orange-400 text-xs">{errors.email.message?.toString()}</span>
+                    <span className="text-red-800 text-sm">{errors.email.message?.toString()}</span>
                   )
                 }
               </div>
@@ -162,7 +162,7 @@ export function RegisterForm({
                       }))} />
                   {
                   errors.password && (
-                    <span className="text-orange-400 text-xs">{errors.password.message?.toString()}</span>
+                    <span className="text-red-800 text-sm">{errors.password.message?.toString()}</span>
                   )
                 }
 
@@ -180,7 +180,7 @@ export function RegisterForm({
                       }))} />
                       {
                   errors.confirmPassword && (
-                    <span className="text-orange-400 text-xs">{errors.confirmPassword.message?.toString()}</span>
+                    <span className="text-red-800 text-sm">{errors.confirmPassword.message?.toString()}</span>
                   )
                 }
               </div>
@@ -188,7 +188,7 @@ export function RegisterForm({
                 Register
               </Button>
               {serverError && (
-                <p className="text-red-500 text-sm text-center">{serverError}</p>
+                <p className="text-red-800 text-sm text-center">{serverError}</p>
               )}
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">

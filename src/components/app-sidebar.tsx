@@ -1,7 +1,7 @@
 "use client"
 
 import {useState, useEffect } from "react";
-import { Plus } from "lucide-react";
+import {CategoryForm} from "./categories/category-form";
 
 import { Calendars } from "@/components/calendars";
 import { DatePicker } from "@/components/date-picker";
@@ -55,41 +55,36 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     user,
     calendars: [
       {
-        name: "My Calendars",
+        name: "My Categories",
         items: ["Personal", "Work", "Family"],
-      },
-      {
-        name: "Favorites",
-        items: ["Holidays", "Birthdays"],
-      },
-      {
-        name: "Other",
-        items: ["Travel", "Reminders", "Deadlines"],
-      },
+      }
     ],
   };
 
   return (
-    <Sidebar {...props}>
-      <SidebarHeader className="h-16 border-b border-sidebar-border">
+    <Sidebar {...props} >
+      <SidebarHeader className="h-16  bg-primary">
         <NavUser user={data.user} />
       </SidebarHeader>
-      <SidebarContent>
-        <DatePicker />
-        <SidebarSeparator className="mx-0" />
+
+      
+      <SidebarContent className="bg-primary">
+
+        <DatePicker/> 
+
         <Calendars calendars={data.calendars} />
       </SidebarContent>
-      <SidebarFooter>
+
+
+      <SidebarFooter className="bg-primary">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <Plus />
-              <span>New Calendar</span>
-            </SidebarMenuButton>
+              <CategoryForm />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
-      <SidebarRail />
+
+      <SidebarRail/>
     </Sidebar>
   );
 }

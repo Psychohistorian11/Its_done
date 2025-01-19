@@ -1,6 +1,5 @@
 import { auth } from '@/auth';
 import prismadb from '@/lib/prismadb';
-import exp from 'constants';
 import { NextResponse } from 'next/server';
 
 export const getUserById = async (id: string) => {

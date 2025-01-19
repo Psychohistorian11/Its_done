@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { auth } from '../../../../auth';
-import { prisma } from '../../../../../prisma/prisma';
+import prismadb from '@/lib/prismadb';
 
 export async function POST() {
 
@@ -11,7 +11,7 @@ export async function POST() {
 
     const { name, email, image } = session.user;
 
-    const userExists = await prisma.user.findFirst({
+    const userExists = await prismadb.user.findFirst({
       where: {
         OR: [{ username: name }, { email }],
       },
@@ -23,7 +23,7 @@ export async function POST() {
     }
 
 
-    await prisma.user.create({
+    await prismadb.user.create({
       data: {
         username: name,
         email,

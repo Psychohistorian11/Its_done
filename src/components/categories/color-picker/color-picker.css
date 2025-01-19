@@ -1,0 +1,60 @@
+body{
+    margin: 0 auto;
+}
+
+.form-color{
+    width: 100%;
+    margin: 1rem 0;
+    
+}
+
+.form-input-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 38px;
+    position: relative;
+    border: 1px solid darkgray;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+
+.form-input-fill::before{
+    position: absolute;
+    top: 50%;
+    transform: translateY((-50%));
+    left: 10px;
+
+}
+
+#color[type="color"]{
+    width: 20%;
+    min-width: 20%;
+    height: 125%;
+    padding: 0;
+    border: none;
+    border-radius: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: transparent;
+    position: absolute;
+    right: -1.5%;
+    top: 50%;
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: width 0.3s ease-in-out, clip-path 0.3s ease-in-out;
+    clip-path: polygon(50% 0,100% 0%,100% 100%, 0% 100%);
+}
+
+#color:is(:focus, :hover){
+    border: none;
+    width: 75%;
+    clip-path: polygon(15% 0, 100% 0%, 100% 100%, 0% 100%);
+}
+
+#color::-webkit-color-swatch,
+#color::-moz-color-swatch{
+    border: none;
+}

@@ -37,20 +37,23 @@ export function Calendars({
                 asChild
                 className="group/label w-full text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               >
-                <CollapsibleTrigger>
+                <CollapsibleTrigger className="text-white">
                   {calendar.name}{" "}
-                  <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                  <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90 text-white" />
                 </CollapsibleTrigger>
-              </SidebarGroupLabel>
+              </SidebarGroupLabel>  
+              
               <CollapsibleContent>
                 <SidebarGroupContent>
                   <SidebarMenu>
                     {calendar.items.map((item, index) => (
                       <SidebarMenuItem key={item}>
-                        <SidebarMenuButton>
+                        <SidebarMenuButton className="text-white">
                           <div
                             data-active={index < 2}
-                            className="group/calendar-item flex aspect-square size-4 shrink-0 items-center justify-center rounded-sm border border-sidebar-border text-sidebar-primary-foreground data-[active=true]:border-sidebar-primary data-[active=true]:bg-sidebar-primary"
+                            className="group/calendar-item flex aspect-square size-4 shrink-0 items-center justify-center
+                             rounded-sm border border-sidebar-border text-sidebar-primary-foreground data-[active=true]:border-sidebar-primary 
+                             data-[active=true]:bg-sidebar-primary"
                           >
                             <Check className="hidden size-3 group-data-[active=true]/calendar-item:block" />
                           </div>
@@ -63,7 +66,6 @@ export function Calendars({
               </CollapsibleContent>
             </Collapsible>
           </SidebarGroup>
-          <SidebarSeparator className="mx-0" />
         </React.Fragment>
       ))}
     </>
