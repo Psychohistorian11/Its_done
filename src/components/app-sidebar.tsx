@@ -3,7 +3,7 @@
 import {useState, useEffect } from "react";
 import {CategoryForm} from "./categories/category-form";
 
-import { Calendars } from "@/components/calendars";
+import  Categories  from "@/components/categories";
 import { DatePicker } from "@/components/date-picker";
 import { NavUser } from "@/components/nav-user";
 import {
@@ -17,6 +17,7 @@ import {
   SidebarRail,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
+import Category from "@/interfaces/category";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
@@ -25,6 +26,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     email: "m@example.com",
     image: "",
   });
+
+  const [categories, setCategories] = useState<Category[]>([{
+    name: "It's Done",
+    color: "#00BFB3",
+    icon: "futbol"
+  }])
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -47,18 +54,33 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         console.error("Error fetching user session:", error);
       }
     };
+
+    const fetchCategory = async () => {
+      try{
+        const response = await fetch("api/auth/category", {
+          method: 'GET',
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+
+        if(!response.ok){
+          throw new Error("Failed to fetch category data");
+        }
+
+        const data = await response.json()
+        setCategories(data)
+      } catch(error){
+        console.error("Error fetching category", error)
+      }
+    }
   
     fetchUser();
   }, []); 
 
   const data = {
     user,
-    calendars: [
-      {
-        name: "My Categories",
-        items: ["Personal", "Work", "Family"],
-      }
-    ],
+    categories
   };
 
   return (
@@ -72,7 +94,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
         <DatePicker/> 
 
-        <Calendars calendars={data.calendars} />
+        <Categories categories={data.categories} />
       </SidebarContent>
 
 

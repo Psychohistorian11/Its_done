@@ -12,7 +12,6 @@ import { Dialog,
 
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
-import { useRouter } from "next/navigation"
 import ColorPicker from "./color-picker/color-picker"
 import EmojiPicker from 'emoji-picker-react'
 import './color-picker/color-picker.css'
@@ -31,14 +30,17 @@ export function CategoryForm() {
   const [name, setName] = useState("Sports")
   const [color, setColor] = useState("#000000")
   const [icon, setIcon] = useState("⚽") 
-  const [isLoading, setIsLoading] = useState(false) // Estado para el overlay
-  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false) 
   const [showEmojiPicker, setShowEmojiPicker] = useState(false) 
+  const [isDialogOpen, setIsDialogOpen] = useState(false); 
+  
   const textColor = isColorLight(color) ? "text-black" : "text-white"
 
   const handleNewCategory = async () => {
-    //setIsLoading(true) // Mostrar el overlay
-    
+    setIsDialogOpen(false); 
+    setIsLoading(true) 
+
+
     try{
       const response = await fetch('api/category', {
           method: 'POST',
@@ -49,11 +51,12 @@ export function CategoryForm() {
       })
       if(response.ok){
         console.log('Category created successfully')
-        router.push('/dashboard')
       }
+
     }catch(error){
       console.error('Error creating new category:', error)
     }
+    setIsLoading(false)
   }
 
   const handleColorChange = (newColor: string) => {
@@ -70,10 +73,11 @@ export function CategoryForm() {
     <div>
           <Loading isLoading={isLoading} />
 
-            <Dialog>
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">New Category</Button>
       </DialogTrigger>
+
       <DialogContent className="sm:max-w-[450px]">
         <DialogHeader>
           <DialogTitle>New Category</DialogTitle>

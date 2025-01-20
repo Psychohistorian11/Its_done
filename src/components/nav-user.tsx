@@ -32,7 +32,7 @@ import { handleSignOut } from "@/app/api/auth/services/route"
 
 
 export function NavUser({
-  user,
+  user
 }: {
   user: {
     name: string

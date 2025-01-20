@@ -13,24 +13,20 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarSeparator,
 } from "@/components/ui/sidebar"
+import Category from "@/interfaces/category"
 
-export function Calendars({
-  calendars,
-}: {
-  calendars: {
-    name: string
-    items: string[]
-  }[]
-}) {
+interface CategorySidebar{
+  categories: Category[]
+}
+
+const Categories:React.FC<CategorySidebar> = ({categories}) => {
   return (
     <>
-      {calendars.map((calendar, index) => (
-        <React.Fragment key={calendar.name}>
-          <SidebarGroup key={calendar.name} className="py-0">
+    
+        <React.Fragment key={"My Categories"}>
+          <SidebarGroup key={"My Categories"} className="py-0">
             <Collapsible
-              defaultOpen={index === 0}
               className="group/collapsible"
             >
               <SidebarGroupLabel
@@ -38,7 +34,7 @@ export function Calendars({
                 className="group/label w-full text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               >
                 <CollapsibleTrigger className="text-white">
-                  {calendar.name}{" "}
+                  {"My Categories"}{" "}
                   <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90 text-white" />
                 </CollapsibleTrigger>
               </SidebarGroupLabel>  
@@ -46,18 +42,11 @@ export function Calendars({
               <CollapsibleContent>
                 <SidebarGroupContent>
                   <SidebarMenu>
-                    {calendar.items.map((item, index) => (
-                      <SidebarMenuItem key={item}>
+                    {categories.map((item, index) => (
+                      <SidebarMenuItem key={index}>
                         <SidebarMenuButton className="text-white">
-                          <div
-                            data-active={index < 2}
-                            className="group/calendar-item flex aspect-square size-4 shrink-0 items-center justify-center
-                             rounded-sm border border-sidebar-border text-sidebar-primary-foreground data-[active=true]:border-sidebar-primary 
-                             data-[active=true]:bg-sidebar-primary"
-                          >
-                            <Check className="hidden size-3 group-data-[active=true]/calendar-item:block" />
-                          </div>
-                          {item}
+                      
+                          {item.name}
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     ))}
@@ -67,7 +56,9 @@ export function Calendars({
             </Collapsible>
           </SidebarGroup>
         </React.Fragment>
-      ))}
+ 
     </>
   )
 }
+
+export default Categories
