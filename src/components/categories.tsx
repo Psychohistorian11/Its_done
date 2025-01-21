@@ -106,7 +106,6 @@ const Categories: React.FC<CategorySidebarProps> = ({ categories }) => {
                           </span>
                         </div>
                         <div className="grid flex-1 text-left text-sm leading-tight">
-                          {/* Limitamos el nombre de la categoría */}
                           <span className="truncate font-semibold overflow-hidden whitespace-nowrap">
                             {category.name}
                           </span>
