@@ -16,7 +16,7 @@ import ColorPicker from "./color-picker/color-picker"
 import EmojiPicker from 'emoji-picker-react'
 import './color-picker/color-picker.css'
 import Loading from "../common/loading"
-import { Plus } from "lucide-react"
+import Category from "@/interfaces/category"
 
 const isColorLight = (hexColor: string) => {
   const r = parseInt(hexColor.substr(1, 2), 16)
@@ -26,38 +26,40 @@ const isColorLight = (hexColor: string) => {
   return luminosity > 128
 }
 
-export function CategoryForm() {
+export function EditCategory({category}: {category: Category}) {
 
-  const [name, setName] = useState("Sports")
-  const [color, setColor] = useState("#000000")
-  const [icon, setIcon] = useState("⚽") 
+  const [name, setName] = useState(category.name)
+  const [color, setColor] = useState(category.color!)
+  const [icon, setIcon] = useState(category.icon) 
   const [isLoading, setIsLoading] = useState(false) 
   const [showEmojiPicker, setShowEmojiPicker] = useState(false) 
   const [isDialogOpen, setIsDialogOpen] = useState(false); 
   
   const textColor = isColorLight(color) ? "text-black" : "text-white"
 
-  const handleNewCategory = async () => {
+  const handleEditCategory = async () => {
     setIsDialogOpen(false); 
     setIsLoading(true) 
 
+    const id = category.id
 
-  try{
-      const response = await fetch('api/category', {
-          method: 'POST',
-          body: JSON.stringify({ name, color, icon }),
-          headers: {
-            'Content-Type': 'application/json'
-          },
-      })
-      if(response.ok){
-        console.log('Category created successfully')
+    try{
+        const response = await fetch('api/category', {
+            method: "PUT",
+            body: JSON.stringify({ name, color, icon, id }),
+            headers: {
+              'Content-Type': 'application/json'
+            },
+        })
+        if(response.ok){
+          console.log('Category created successfully')
+        }
+  
+      }catch(error){
+        console.error('Error creating new category:', error)
       }
+      setIsLoading(false)
 
-    }catch(error){
-      console.error('Error creating new category:', error)
-    }
-    setIsLoading(false)
   }
 
   const handleColorChange = (newColor: string) => {
@@ -76,15 +78,17 @@ export function CategoryForm() {
 
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="bg-transparent border border-primary text-white">
-          <Plus/>New Category</Button>
+        <Button variant="outline" className="text-black rounded-none border-none hover:bg-transparent">
+      Edit Category
+      </Button>
       </DialogTrigger>
+
 
       <DialogContent className="sm:max-w-[450px]">
         <DialogHeader>
-          <DialogTitle>New Category</DialogTitle>
+          <DialogTitle>Edit Category</DialogTitle>
           <DialogDescription>
-            Create your new category here. Click save when you're done.
+            Edit your category here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4 px-8">
@@ -141,7 +145,7 @@ export function CategoryForm() {
             className={`${textColor}`} 
             style={{ backgroundColor: color }} 
             type="submit" 
-            onClick={handleNewCategory}
+            onClick={handleEditCategory}
           >
             {icon} Save category
           </Button>

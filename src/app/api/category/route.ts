@@ -6,8 +6,6 @@ export async function POST(request: NextRequest) {
   try {
     const data = await request.json();
 
-    console.log("data received:", data);
-
     if (!data.name) {
       return NextResponse.json(
         { error: "name is required field." },
@@ -47,3 +45,93 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+
+export async function GET() {
+  try {
+    const session = await auth();
+
+    const userFound = await prismadb.user.findUnique({
+      where: {
+        email: session?.user?.email!,
+      },
+    });
+
+    if (!userFound) {
+      return NextResponse.json(
+        { error: "User not found." },
+        { status: 404 }
+      );
+    }
+
+    const categories = await prismadb.category.findMany({
+      where: {
+        userId: userFound.id, 
+      },
+      select: {
+        id: true,
+        name: true,
+        color: true,
+        icon: true,
+      },
+    });
+
+    return NextResponse.json(categories, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return NextResponse.json(
+      { error: "An error occurred while fetching categories." },
+      { status: 500 }
+    );
+  }
+}
+
+
+export async function PUT(request: NextRequest) {
+  try {
+    const data = await request.json();
+    console.log("data received:", data);
+
+
+    if (!data.id || !data.name) {
+      return NextResponse.json(
+        { error: "'id' and 'name' are required fields." },
+        { status: 400 }
+      );
+    }
+
+    const session = await auth();
+    const userFound = await prismadb.user.findUnique({
+      where: {
+        email: session?.user?.email!,
+      },
+    });
+
+    if (!userFound) {
+      return NextResponse.json(
+        { error: "User not found." },
+        { status: 404 }
+      );
+    }
+
+    const updatedCategory = await prismadb.category.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        name: data.name,
+        color: data.color || null,
+        icon: data.icon || null,
+      },
+    });
+
+    return NextResponse.json(updatedCategory, { status: 200 });
+  } catch (error) {
+    console.error("Error updating category:", error);
+    return NextResponse.json(
+      { error: "An error occurred while updating the category." },
+      { status: 500 }
+    );
+  }
+}
+

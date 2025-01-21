@@ -12,7 +12,6 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
   SidebarSeparator,
@@ -28,9 +27,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   });
 
   const [categories, setCategories] = useState<Category[]>([{
+    id: 0,
     name: "It's Done",
     color: "#00BFB3",
-    icon: "futbol"
+    icon: "⚽"
   }])
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
     const fetchCategory = async () => {
       try{
-        const response = await fetch("api/auth/category", {
+        const response = await fetch("api/category", {
           method: 'GET',
           headers: {
             "Content-Type": "application/json",
@@ -65,18 +65,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         })
 
         if(!response.ok){
-          throw new Error("Failed to fetch category data");
+            console.error("Error fetching category")
+
         }
 
         const data = await response.json()
         setCategories(data)
+        console.log("data: ", data)
       } catch(error){
         console.error("Error fetching category", error)
       }
     }
   
     fetchUser();
-  }, []); 
+    fetchCategory()
+    }, []); 
 
   const data = {
     user,
@@ -93,7 +96,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent className="bg-primary">
 
         <DatePicker/> 
-
+        <SidebarSeparator  className="mx-0"/>
         <Categories categories={data.categories} />
       </SidebarContent>
 

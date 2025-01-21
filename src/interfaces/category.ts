@@ -1,5 +1,6 @@
 export default interface Category{
-    name: String;
-    color?: String
-    icon?: String
+    id: number;
+    name: string;
+    color?: string
+    icon?: string
 }

@@ -51,7 +51,7 @@ export function NavUser({
       <SidebarMenuItem>
         <DropdownMenu>
 
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger asChild className="bg-foreground">
             <SidebarMenuButton
               size="lg"
               className="hover:bg-foreground"
