@@ -74,85 +74,86 @@ export function EditCategory({category}: {category: Category}) {
 
   return (
     <div>
-          <Loading isLoading={isLoading} />
+      <Loading isLoading={isLoading} />
 
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="text-black rounded-none border-none hover:bg-transparent">
-      Edit Category
-      </Button>
-      </DialogTrigger>
-
-
-      <DialogContent className="sm:max-w-[450px]">
-        <DialogHeader>
-          <DialogTitle>Edit Category</DialogTitle>
-          <DialogDescription>
-            Edit your category here. Click save when you're done.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4 px-8">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input 
-              required
-              id="name" 
-              value={name} 
-              onChange={(e) => setName(e.target.value)} 
-              className="col-span-3" 
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="color" className="text-right">
-              Color
-            </Label>
-            <ColorPicker 
-              id="color" 
-              value={color} 
-              onChange={handleColorChange} 
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="icon" className="text-right">
-              Icon
-            </Label>
-            <div className="col-span-3 flex items-center space-x-2">
-              <Input 
-                id="icon" 
-                value={icon} 
-                readOnly 
-                placeholder="Select an emoji"
-                className="w-20 text-center" 
-              />
-              <Button 
-                variant="outline" 
-                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-              >
-                Pick Emoji
-              </Button>
-            </div>
-          </div>
-          {showEmojiPicker && (
-            <div className="mt-2">
-              <EmojiPicker onEmojiClick={handleEmojiSelect} />
-            </div>
-          )}
-        </div>
-        <DialogFooter>
-          <Button 
-            className={`${textColor}`} 
-            style={{ backgroundColor: color }} 
-            type="submit" 
-            onClick={handleEditCategory}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogTrigger asChild>
+          <Button
+            variant="outline"
+            className="text-black rounded-none border-none hover:bg-transparent"
           >
-            {icon} Save category
+            Edit category
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </DialogTrigger>
+
+        <DialogContent className="sm:max-w-[450px]">
+          <DialogHeader>
+            <DialogTitle>Edit Category</DialogTitle>
+            <DialogDescription>
+              Edit your category here. Click save when you're done.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4 px-8">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="name" className="text-right">
+                Name
+              </Label>
+              <Input
+                required
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="color" className="text-right">
+                Color
+              </Label>
+              <ColorPicker
+                id="color"
+                value={color}
+                onChange={handleColorChange}
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="icon" className="text-right">
+                Icon
+              </Label>
+              <div className="col-span-3 flex items-center space-x-2">
+                <Input
+                  id="icon"
+                  value={icon}
+                  readOnly
+                  placeholder="Select an emoji"
+                  className="w-20 text-center"
+                />
+                <Button
+                  variant="outline"
+                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                >
+                  Pick Emoji
+                </Button>
+              </div>
+            </div>
+            {showEmojiPicker && (
+              <div className="mt-2">
+                <EmojiPicker onEmojiClick={handleEmojiSelect} />
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <Button
+              className={`${textColor}`}
+              style={{ backgroundColor: color }}
+              type="submit"
+              onClick={handleEditCategory}
+            >
+              {icon} Save category
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
-    
-  )
+  );
 }

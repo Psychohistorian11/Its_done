@@ -50,19 +50,12 @@ export function NavUser({
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-
           <DropdownMenuTrigger asChild className="bg-foreground">
-            <SidebarMenuButton
-              size="lg"
-              className="hover:bg-foreground"
-            >
+            <SidebarMenuButton size="lg" className="hover:bg-foreground">
               <Avatar className="h-8 w-8 rounded-lg">
-            <AvatarImage
-              src={user.image}
-              alt={user.name}
-            />
-            <AvatarFallback className="rounded-lg">ID</AvatarFallback>
-          </Avatar> 
+                <AvatarImage src={user.image} alt={user.name} />
+                <AvatarFallback className="rounded-lg">ID</AvatarFallback>
+              </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight text-white">
                 <span className="truncate font-semibold ">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
@@ -90,7 +83,6 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
 
-      
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
@@ -109,10 +101,9 @@ export function NavUser({
               <LogOut />
               Log out
             </DropdownMenuItem>
-
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

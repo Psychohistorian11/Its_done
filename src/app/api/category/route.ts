@@ -135,3 +135,46 @@ export async function PUT(request: NextRequest) {
   }
 }
 
+export async function DELETE(request: NextRequest) {
+  try {
+    const data = await request.json();
+
+    if (!data.id) {
+      return NextResponse.json(
+        { error: "'id' is a required field for deletion." },
+        { status: 400 }
+      );
+    }
+
+    const session = await auth();
+    const userFound = await prismadb.user.findUnique({
+      where: {
+        email: session?.user?.email!,
+      },
+    });
+
+    if (!userFound) {
+      return NextResponse.json({ error: "User not found." }, { status: 404 });
+    }
+
+    const deletedCategory = await prismadb.category.delete({
+      where: {
+        id: data.id,
+      },
+    });
+
+    /*TODO:
+      Eliminar todas tareas relacionadas con la categoría que esta eliminando*/
+
+    return NextResponse.json(
+      { message: "Category deleted successfully.", deletedCategory },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting category:", error);
+    return NextResponse.json(
+      { error: "An error occurred while deleting the category." },
+      { status: 500 }
+    );
+  }
+}

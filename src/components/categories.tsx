@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/sidebar";
 import Category from "@/interfaces/category";
 import { EditCategory } from "./categories/edit-category";
+import { AlertDeleteCategory } from "./alert-delete-category";
 
 interface CategorySidebarProps {
   categories: Category[];
@@ -45,98 +46,99 @@ const Categories: React.FC<CategorySidebarProps> = ({ categories }) => {
           <SidebarMenu>
             {categories.map((category, index) => (
               <SidebarMenuItem key={index}>
-              <DropdownMenu
-                open={openCategory === index}
-                onOpenChange={(isOpen) => setOpenCategory(isOpen ? index : null)}
-              >
-                <div className="flex items-center gap-2 text-white mt-1 bg-foreground p-1 w-full
-                 hover:bg-white hover:text-black rounded-lg">
-                  {category.icon && (
-                    <span
-                      className="p-1.5 rounded-md"
-                      style={{
-                        backgroundColor: category.color,
-                        fontSize: "1.2rem",
-                      }}
-                    >
-                      {category.icon}
-                    </span>
-                  )}
-                  <span
-                    className="text-sm flex-1"
-                    onClick={() => console.log(`Navigating to ${category.name}`)}
-                  >
-                    {category.name}
-                  </span>
-            
-                  <DropdownMenuTrigger asChild>
-                    <button
-                      className="ml-auto"
-                      onClick={(e) => {
-                        e.stopPropagation(); 
-                        toggleDropdown(index);
-                      }}
-                    >
-                      <ChevronsUpDown className="size-4" />
-                    </button>
-                  </DropdownMenuTrigger>
-                </div>
-            
-                {/* Contenido del Dropdown */}
-                <DropdownMenuContent
-                  className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-                  align="start"
-                  sideOffset={4}
+                <DropdownMenu
+                  open={openCategory === index}
+                  onOpenChange={(isOpen) =>
+                    setOpenCategory(isOpen ? index : null)
+                  }
                 >
-                  <DropdownMenuLabel className="p-0 font-normal">
-                    <div className="flex items-center gap-2 px-1 py-2 text-left text-sm">
-                      <div
-                        className="flex items-center justify-center h-8 w-8 rounded-lg"
+                  <div
+                    className="flex items-center gap-2 text-white mt-1 bg-foreground p-1 w-full
+                 hover:bg-white hover:text-black rounded-lg"
+                  >
+                    {category.icon && (
+                      <span
+                        className="p-1.5 rounded-md"
                         style={{
                           backgroundColor: category.color,
+                          fontSize: "1.2rem",
                         }}
                       >
-                        <span className="text-white text-lg">{category.icon}</span>
-                      </div>
-                      <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold">{category.name}</span>
-                        <span className="truncate text-xs text-gray-500">
-                          Category Info
-                        </span>
-                      </div>
-                    </div>
-                  </DropdownMenuLabel>
-
-
-                  <DropdownMenuSeparator />
-                  <DropdownMenuGroup className="items-start">
-                    <DropdownMenuItem>
-                      <span className="flex items-center gap-4 ml-2">
-                        <Eye className="ml-auto size-4 text-black"/>
-                        See Category  
+                        {category.icon}
                       </span>
-                    </DropdownMenuItem>
-                      <span className="flex items-center mr-16">
-                        <Pencil className="ml-auto size-4 text-black" />
-                        <EditCategory category={category}/>
-                      </span>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                  
-
-                  <DropdownMenuItem
-                    onClick={() => console.log(`Deleting ${category.name}`)}
-                  >
-                    <span className="flex items-center gap-2">
-                      <Eraser className="ml-auto size-4 text-black" />
-                      Delete {category.name}
+                    )}
+                    <span
+                      className="text-sm flex-1"
+                      onClick={() =>
+                        console.log(`Navigating to ${category.name}`)
+                      }
+                    >
+                      {category.name}
                     </span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-            
 
+                    <DropdownMenuTrigger asChild>
+                      <button
+                        className="ml-auto"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleDropdown(index);
+                        }}
+                      >
+                        <ChevronsUpDown className="size-4" />
+                      </button>
+                    </DropdownMenuTrigger>
+                  </div>{" "}
+                  <DropdownMenuContent
+                    className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+                    align="start"
+                    sideOffset={4}
+                  >
+                    <DropdownMenuLabel className="p-0 font-normal">
+                      <div className="flex items-center gap-2 px-1 py-2 text-left text-sm">
+                        <div
+                          className="flex items-center justify-center h-8 w-8 rounded-lg"
+                          style={{
+                            backgroundColor: category.color,
+                          }}
+                        >
+                          <span className="text-white text-lg">
+                            {category.icon}
+                          </span>
+                        </div>
+                        <div className="grid flex-1 text-left text-sm leading-tight">
+                          {/* Limitamos el nombre de la categoría */}
+                          <span className="truncate font-semibold overflow-hidden whitespace-nowrap">
+                            {category.name}
+                          </span>
+                          <span className="truncate text-xs text-gray-500 overflow-hidden whitespace-nowrap">
+                            Category Info
+                          </span>
+                        </div>
+                      </div>
+                    </DropdownMenuLabel>
+
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup className="items-start">
+                      <DropdownMenuItem>
+                        <span className="flex items-center gap-4">
+                          <Eye className="ml-auto size-4 text-black" />
+                          See
+                        </span>
+                      </DropdownMenuItem>
+                      <span className="flex items-center ">
+                        <Pencil className="ml-2 size-4 text-black" />
+                        <EditCategory category={category} />
+                      </span>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+
+                    <span className="flex items-center">
+                      <Eraser className="ml-2 size-4 text-black" />
+                      <AlertDeleteCategory category={category} />
+                    </span>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </SidebarMenuItem>
             ))}
           </SidebarMenu>
         </SidebarGroupContent>
