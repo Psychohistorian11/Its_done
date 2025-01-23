@@ -1,5 +1,14 @@
 import * as React from "react";
-import {  Bell, ChevronsUpDown, Eraser, Eye, LogOut, Pencil, SlidersHorizontal } from "lucide-react";
+import {
+  Bell,
+  ChevronsUpDown,
+  Eraser,
+  Eye,
+  List,
+  LogOut,
+  Pencil,
+  SlidersHorizontal,
+} from "lucide-react";
 
 import {
   DropdownMenu,
@@ -39,7 +48,10 @@ const Categories: React.FC<CategorySidebarProps> = ({ categories }) => {
           asChild
           className="group/label w-full text-sm text-sidebar-foreground"
         >
-          <span className="text-white mb-2">My Categories</span>
+          <span className="text-white mb-2 gap-2">
+            <List />
+            My Categories
+          </span>
         </SidebarGroupLabel>
 
         <SidebarGroupContent>

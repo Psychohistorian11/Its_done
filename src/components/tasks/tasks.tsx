@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import undraw_designer from "../../../public/images/undraw_designer-girl_jtyy.svg";
+import { TaskForm } from "./task-form";
+import UserTask from "@/interfaces/task";
 
 export function Task() {
-  const [task, setTask] = useState();
-  const [areThereTask, setAreThereTask] = useState(false);
+  const [task, setTask] = useState<UserTask[]>([]);
 
   return (
     <div>
-      {areThereTask && (
+      {task!.length > 0 && (
         <div className="flex flex-1 flex-col gap-4 p-4">
           <div className="grid auto-rows-min gap-4 md:grid-cols-5">
             {Array.from({ length: 20 }).map((_, i) => (
@@ -19,10 +19,13 @@ export function Task() {
         </div>
       )}
 
-      {!areThereTask && (
-        <div className="flex flex-col justify-center items-center h-screen">
-          <img src="/images/createTask.png" className="size-80" />
-          <span className="text-white mt-4">there is not tasks</span>
+      {task!.length == 0 && (
+        <div className="flex flex-col justify-center items-center h-screen pb-40">
+          <img src="/images/fondo.png" className="w-[500px] h-[300  px]" />
+          <p className="text-lg text-center mb-6 text-white truncate font-semibold">
+            Start by adding your first task and organizing your day.
+          </p>
+          <TaskForm />
         </div>
       )}
     </div>
