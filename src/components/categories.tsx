@@ -1,14 +1,5 @@
 import * as React from "react";
-import {
-  Bell,
-  ChevronsUpDown,
-  Eraser,
-  Eye,
-  List,
-  LogOut,
-  Pencil,
-  SlidersHorizontal,
-} from "lucide-react";
+import { Bell, ChevronsUpDown, Eraser, Eye, List, Pencil } from "lucide-react";
 
 import {
   DropdownMenu,

@@ -57,12 +57,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
     const fetchCategory = async () => {
       try{
-        const response = await fetch("api/category", {
-          method: 'GET',
+        const response = await fetch("/api/category", {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-        })
+        });
 
         if(!response.ok){
             console.error("Error fetching category")

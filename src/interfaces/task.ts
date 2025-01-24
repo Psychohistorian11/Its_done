@@ -1,4 +1,4 @@
-export default interface UserTasks {
+export default interface UserTask {
   id?: number;
   title: string;
   description?: string;
