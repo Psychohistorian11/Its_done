@@ -23,8 +23,13 @@ export default function LoginForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
 
-  const {register, handleSubmit, formState:{errors}, setError, clearErrors} = useForm()
-  const router = useRouter()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm();
+  const router = useRouter();
 
   const onSubmit = handleSubmit(async (data) => {
     const res = await signIn("credentials", {
@@ -32,18 +37,17 @@ export default function LoginForm({
       password: data.password,
       redirect: false,
     });
-    
+
     if (res!.error) {
       setError("email", { type: "manual", message: "Invalid credentials." });
-
     } else {
       router.push("/dashboard");
     }
   });
-  
+
   return (
-    <div className={cn("flex flex-col gap-6 ", className)} {...props}>
-      <Card>
+    <div className={cn("flex flex-col gap-6", className)} {...props}>
+      <Card className="bg-white">
         <CardHeader className="text-center ">
           <CardTitle className="text-xl">Welcome back</CardTitle>
           <CardDescription>
@@ -54,9 +58,9 @@ export default function LoginForm({
           <form onSubmit={onSubmit}>
             <div className="grid gap-6">
               <div className="flex flex-col gap-4">
-                <GithubService login={true}/>
+                <GithubService login={true} />
 
-                <GoogleService login={true}/>
+                <GoogleService login={true} />
               </div>
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">
@@ -64,54 +68,53 @@ export default function LoginForm({
                 </span>
               </div>
               <div className="grid gap-6">
-                
-              <div className="grid gap-2 ">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  className="border border-zinc-400"
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  {...(register('email', {
-                    required: {
-                      value: true,
-                      message: "email is required"
-                    }
-                  }))}
-                />
-                
-              </div>
+                <div className="grid gap-2 ">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    className="border border-zinc-400"
+                    id="email"
+                    type="email"
+                    placeholder="m@example.com"
+                    {...register("email", {
+                      required: {
+                        value: true,
+                        message: "email is required",
+                      },
+                    })}
+                  />
+                </div>
 
                 <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <a
+                  <div className="flex items-center">
+                    <Label htmlFor="password">Password</Label>
+                    <a
                       href="#"
                       className="ml-auto text-sm underline-offset-4 hover:underline"
                     >
                       Forgot your password?
                     </a>
+                  </div>
+                  <Input
+                    className="border border-zinc-400"
+                    id="password"
+                    type="password"
+                    {...register("password", {
+                      required: {
+                        value: true,
+                        message: "password is required",
+                      },
+                    })}
+                  />
                 </div>
-                <Input className="border border-zinc-400" 
-                       id="password" 
-                       type="password" 
-                       {...(register('password', {
-                        required: {
-                          value: true,
-                          message: "password is required"
-                        }
-                      }))} />
-
-              </div>
 
                 <Button type="submit" className="w-full">
                   Login
                 </Button>
-                {
-                  errors.email && (
-                    <span className="text-red-800 text-sm">{errors.email.message?.toString()}</span>
-                  )
-                }
+                {errors.email && (
+                  <span className="text-red-800 text-sm">
+                    {errors.email.message?.toString()}
+                  </span>
+                )}
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
@@ -128,7 +131,5 @@ export default function LoginForm({
         and <a href="#">Privacy Policy</a>.
       </div>
     </div>
-
-    
-  )
+  );
 }

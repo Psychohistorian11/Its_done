@@ -2,10 +2,11 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 interface PriorityProps {
+  priority: string;
   setPriority: (value: string) => void;
 }
 
-export function RadioGroupDemo({ setPriority }: PriorityProps) {
+export function RadioGroupDemo({ priority, setPriority }: PriorityProps) {
   const handleChange = (newValue: string) => {
     setPriority(newValue);
   };
@@ -16,6 +17,7 @@ export function RadioGroupDemo({ setPriority }: PriorityProps) {
         defaultValue="comfortable"
         className="flex text-white justify-between"
         onValueChange={handleChange}
+        value={priority}
       >
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="low" id="r1" />

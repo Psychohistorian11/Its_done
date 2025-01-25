@@ -93,18 +93,15 @@ export function RegisterForm({
   
 
   return (
-
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden">
-        <CardContent className="grid p-0 md:grid-cols-2">
-
+    <div className={cn("flex flex-col gap-6 ", className)} {...props}>
+      <Card className="overflow-hidden ">
+        <CardContent className="grid p-0 md:grid-cols-2 bg-white">
           <form className="p-6 md:p-8" onSubmit={onSubmit}>
-
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome</h1>
                 <p className="text-balance text-muted-foreground">
-                Sign in to your It's Done account
+                  Sign in to your It's Done account
                 </p>
               </div>
               <div className="grid gap-2 ">
@@ -113,19 +110,18 @@ export function RegisterForm({
                   className="border border-zinc-400"
                   id="name"
                   type="text"
-                  {...(register('username', {
+                  {...register("username", {
                     required: {
                       value: true,
-                      message: "Username is required"
-                    }
-                  }))}
+                      message: "Username is required",
+                    },
+                  })}
                 />
-                {
-                  errors.username && (
-                    <span className="">{errors.username.message?.toString()}</span>
-                  )
-                }
-
+                {errors.username && (
+                  <span className="text-red-800 text-sm">
+                    {errors.username.message?.toString()}
+                  </span>
+                )}
               </div>
               <div className="grid gap-2 ">
                 <Label htmlFor="email">Email</Label>
@@ -134,61 +130,67 @@ export function RegisterForm({
                   id="email"
                   type="email"
                   placeholder="m@example.com"
-                  {...(register('email', {
+                  {...register("email", {
                     required: {
                       value: true,
-                      message: "email is required"
-                    }
-                  }))}
+                      message: "email is required",
+                    },
+                  })}
                 />
-                {
-                  errors.email && (
-                    <span className="text-red-800 text-sm">{errors.email.message?.toString()}</span>
-                  )
-                }
+                {errors.email && (
+                  <span className="text-red-800 text-sm">
+                    {errors.email.message?.toString()}
+                  </span>
+                )}
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input className="border border-zinc-400" 
-                       id="password" 
-                       type="password" 
-                       {...(register('password', {
-                        required: {
-                          value: true,
-                          message: "password is required"
-                        }
-                      }))} />
-                  {
-                  errors.password && (
-                    <span className="text-red-800 text-sm">{errors.password.message?.toString()}</span>
-                  )
-                }
+                <Input
+                  className="border border-zinc-400"
+                  id="password"
+                  type="password"
+                  {...register("password", {
+                    required: {
+                      value: true,
+                      message: "password is required",
+                    },
+                  })}
+                />
+                {errors.password && (
+                  <span className="text-red-800 text-sm">
+                    {errors.password.message?.toString()}
+                  </span>
+                )}
 
                 <div className="flex items-center">
                   <Label htmlFor="confirmPassword">Confirm password</Label>
                 </div>
-                <Input className="border border-zinc-400" 
-                       id="confirmPassword" 
-                       type="password" 
-                       {...(register('confirmPassword', {
-                        required: {
-                          value: true,
-                          message: "confirm the password is required"
-                        }
-                      }))} />
-                      {
-                  errors.confirmPassword && (
-                    <span className="text-red-800 text-sm">{errors.confirmPassword.message?.toString()}</span>
-                  )
-                }
+                <Input
+                  className="border border-zinc-400"
+                  id="confirmPassword"
+                  type="password"
+                  {...register("confirmPassword", {
+                    required: {
+                      value: true,
+                      message: "confirm the password is required",
+                    },
+                  })}
+                />
+                {errors.confirmPassword && (
+                  <span className="text-red-800 text-sm">
+                    {errors.confirmPassword.message?.toString()}
+                  </span>
+                )}
               </div>
               <Button type="submit" className="w-full">
                 Register
               </Button>
               {serverError && (
-                <p className="text-red-800 text-sm text-center">{serverError}</p>
+                <p className="text-red-800 text-sm text-center">
+                  {serverError}
+                </p>
               )}
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">
@@ -196,31 +198,36 @@ export function RegisterForm({
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                
-              <GithubService login={false} />
-              
-              <GoogleService login={false} />
+                <GithubService login={false} />
+
+                <GoogleService login={false} />
               </div>
-
             </div>
-   
           </form>
-          <form onSubmit={async (e) => {
-            e.preventDefault()
-          }}>
-
-          <div className="relative md:block h-full w-full">
-            <input type="file"
-               onChange={handleFileChange}
-               accept="image/*"
-              className="absolute h-full w-full object-cover dark:brightness-[0.2] dark:grayscale hover:cursor-pointer opacity-0"
-            />
-            <div className="md:w-full md:h-full">
-            {imageUrl ? <img className="h-full w-full" src={imageUrl}></img> : (<img className="h-full w-full object-cover" src="/images/profilePicture.png"></img>)}     
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+            }}
+          >
+            <div className="relative md:block h-full w-full">
+              <input
+                type="file"
+                onChange={handleFileChange}
+                accept="image/*"
+                className="absolute h-full w-full object-cover dark:brightness-[0.2] dark:grayscale hover:cursor-pointer opacity-0"
+              />
+              <div className="md:w-full md:h-full">
+                {imageUrl ? (
+                  <img className="h-full w-full" src={imageUrl}></img>
+                ) : (
+                  <img
+                    className="h-full w-full object-cover"
+                    src="/images/profilePicture.png"
+                  ></img>
+                )}
+              </div>
             </div>
-          </div>
-          </form> 
-          
+          </form>
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
@@ -228,5 +235,5 @@ export function RegisterForm({
         and <a href="#">Privacy Policy</a>.
       </div>
     </div>
-  )
+  );
 }

@@ -10,26 +10,22 @@ import {
 import { List, Plus, Check } from "lucide-react";
 import { DropdownMenu } from "../ui/dropdown-menu";
 import { CategoryForm } from "./category-form";
-
+import { Skeleton } from "../ui/skeleton";
 interface CategoryProps {
+  categoryToSend: Category | null;
   setCategory: (value: Category) => void;
 }
 
-export function SelectCategory({ setCategory }: CategoryProps) {
-  const [categories, setCategories] = useState<Category[]>([
-    {
-      id: 0,
-      name: "It's Done",
-      color: "#00BFB3",
-      icon: "⚽",
-    },
-  ]);
+export function SelectCategory({ categoryToSend, setCategory }: CategoryProps) {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
 
   useEffect(() => {
     const fetchCategory = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch("/api/category", {
           method: "GET",
@@ -44,9 +40,10 @@ export function SelectCategory({ setCategory }: CategoryProps) {
 
         const data = await response.json();
         setCategories(data);
-        console.log("data: ", data);
       } catch (error) {
         console.error("Error fetching category", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -72,17 +69,27 @@ export function SelectCategory({ setCategory }: CategoryProps) {
 
       <SidebarGroupContent>
         <SidebarMenu>
-          {categories ? (
+          {isLoading ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <div className="flex items-center space-x-4" key={index}>
+                <Skeleton className="h-10 w-10 rounded-full bg-primary" />
+                <div className="space-y-2">
+                  <Skeleton className="h-3 w-[310px] bg-primary" />
+                  <Skeleton className="h-3 w-[200px] bg-primary" />
+                </div>
+              </div>
+            ))
+          ) : categories.length > 0 ? (
             categories.map((category) => (
               <SidebarMenuItem key={category.id}>
                 <DropdownMenu>
                   <div
                     className={`flex items-center gap-2 text-white mt-1 p-1 w-full rounded-lg ${
-                      selectedCategory?.id === category.id
-                        ? "bg-primary" // Apply bg-primary if selected
+                      categoryToSend?.id === category.id
+                        ? "bg-primary"
                         : "hover:bg-primary"
                     }`}
-                    onClick={() => handleSelectCategory(category)} // Handle selection on click
+                    onClick={() => handleSelectCategory(category)}
                   >
                     {category.icon && (
                       <span
@@ -99,7 +106,7 @@ export function SelectCategory({ setCategory }: CategoryProps) {
                     <span className="text-sm">{category.name}</span>
 
                     <span className="flex ml-auto">
-                      {selectedCategory?.id === category.id ? (
+                      {categoryToSend?.id === category.id ? (
                         <Check className="text-ItsDone" />
                       ) : (
                         <Plus />
@@ -110,7 +117,12 @@ export function SelectCategory({ setCategory }: CategoryProps) {
               </SidebarMenuItem>
             ))
           ) : (
-            <CategoryForm />
+            <div className="grid justify-items-center gap-2">
+              <span className="text-white flex">
+                no categories, create them here
+              </span>
+              <CategoryForm />
+            </div>
           )}
         </SidebarMenu>
       </SidebarGroupContent>

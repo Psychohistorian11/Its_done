@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const session = await auth()
+    const session = await auth();
     const userFound = await prismadb.user.findUnique({
       where: {
         email: session?.user?.email!,
@@ -21,10 +21,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (!userFound) {
-      return NextResponse.json(
-        { error: "User not found." },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "User not found." }, { status: 404 });
     }
 
     const newCategory = await prismadb.category.create({
@@ -32,7 +29,7 @@ export async function POST(request: NextRequest) {
         name: data.name,
         color: data.color || null,
         icon: data.icon || null,
-        userId: userFound.id, 
+        userId: userFound.id,
       },
     });
 

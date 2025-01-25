@@ -1,5 +1,4 @@
 "use client";
-import { Calendar, List, ListChecks, Scroll } from "lucide-react";
 import { Button } from "../ui/button";
 
 import { Label } from "../ui/label";
@@ -16,10 +15,12 @@ import {
 import { Textarea } from "../ui/textarea";
 import DateTime_Picker from "./date-time-picker";
 import { useState } from "react";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 import { RadioGroupDemo } from "../radio-group-demo";
 import { SelectCategory } from "../categories/select-category";
 import Category from "@/interfaces/category";
+import Loading from "../common/loading";
+import { useRouter } from "next/navigation";
 
 export function TaskForm() {
   //Tab one
@@ -34,23 +35,47 @@ export function TaskForm() {
   //Tab three
   const [category, setCategory] = useState<Category | null>(null);
 
-  // Función de envío del formulario
-  const handleSubmit = () => {
+  const isFormValid = title.trim() !== "" && dueTime !== null;
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
+
+  const handleNewTask = async () => {
+    if (!isFormValid) return;
+    setIsLoading(true);
     const taskData = {
       title,
       description,
       priority,
       createdAt: createdAt ? createdAt.toISOString() : null,
       dueTime: dueTime ? dueTime.toISOString() : null,
-      category: category ? category.name : null,
+      category: category ? category : null,
     };
 
-    // Aquí puedes enviar los datos a un backend o hacer lo que necesites
     console.log("Task Data:", taskData);
+    try {
+      const response = await fetch("/api/task", {
+        method: "POST",
+        body: JSON.stringify(taskData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        console.log("Category created successfully");
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.error("Error creating new task:", error);
+    }
+    setIsLoading(false);
   };
 
   return (
-    <div>
+    <div className="pb-28">
+      <Loading isLoading={isLoading} />
+
       <Tabs defaultValue="task" className="w-[450px] h-[500px]">
         <TabsList className="grid w-full grid-cols-4 bg-primary">
           <TabsTrigger value="task">Task</TabsTrigger>
@@ -117,7 +142,7 @@ export function TaskForm() {
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="space-y-1">
-                <RadioGroupDemo setPriority={setPriority} />
+                <RadioGroupDemo priority={priority} setPriority={setPriority} />
               </div>
             </CardContent>
           </Card>
@@ -173,11 +198,15 @@ export function TaskForm() {
                 Select the category
               </CardTitle>
               <CardDescription>
-                Select only the category you want the task to belong to.
+                Select only the category you want the task to belong to. The
+                category is not required to continue.{" "}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
-              <SelectCategory setCategory={setCategory} />
+              <SelectCategory
+                categoryToSend={category}
+                setCategory={setCategory}
+              />
             </CardContent>
           </Card>
         </TabsContent>
@@ -186,51 +215,85 @@ export function TaskForm() {
           <Card>
             <CardHeader>
               <CardTitle>Summary</CardTitle>
-              <CardDescription>Check the information of task</CardDescription>
+              <CardDescription>
+                Check the information of task before to save
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="space-y-1">
-                <Label className="flex justify-start mb-2 text-white text-sm">
+                <Label className="flex justify-start mb-2 text-white text-sm font-semibold leading-none tracking-tight">
                   Title
                 </Label>
                 <p className="text-white flex justify-start border border-primary rounded-sm p-2">
-                  {title}
+                  {title ? (
+                    title
+                  ) : (
+                    <span className="text-muted-foreground">
+                      Title not entered
+                    </span>
+                  )}
                 </p>
+                {!title && (
+                  <span className="text-red-600">Title is required</span>
+                )}
               </div>
+              {!title && <span>Title is required</span>}
               <div className="space-y-1">
-                <Label className="flex justify-start mb-2 text-white text-sm">
+                <Label className="flex justify-start mb-2 text-white text-sm font-semibold leading-none tracking-tight">
                   Description
                 </Label>
                 <p className="text-white flex justify-start border border-primary rounded-sm p-2">
-                  {description}
+                  {description ? (
+                    description
+                  ) : (
+                    <span className="text-muted-foreground">
+                      description not entered
+                    </span>
+                  )}
                 </p>
               </div>
 
               <div className="space-y-1">
-                <Label className="flex justify-start mb-2 text-white text-sm">
+                <Label className="flex justify-start mb-2 text-white text-sm font-semibold leading-none tracking-tight">
                   Priority
                 </Label>
                 <p className="text-white flex justify-start border border-primary rounded-sm p-2">
                   {priority}
                 </p>
               </div>
-              <div className="gap-2 flex justify-around mt-2">
-                <div className=" rounded-sm border border-primary p-2">
-                  <Label className="text-white">Start date</Label>
+              <div className="gap-2 flex justify-between mt-2">
+                <div className=" rounded-sm border border-primary p-2 w-full">
+                  <Label className="text-white font-semibold leading-none tracking-tight">
+                    Start date
+                  </Label>
                   <p className="text-white">
-                    {createdAt?.format("DD/MM/YYYY HH:mm")}
+                    {createdAt ? (
+                      createdAt.format("DD/MM/YYYY HH:mm")
+                    ) : (
+                      <span className="text-muted-foreground">
+                        start date not entered
+                      </span>
+                    )}
                   </p>
                 </div>
 
-                <div className=" rounded-sm border border-ItsDone p-2">
-                  <Label className="text-white">End date</Label>
+                <div className=" rounded-sm border border-ItsDone p-2 w-full">
+                  <Label className="text-white font-semibold leading-none tracking-tight">
+                    End date
+                  </Label>
                   <p className="text-white">
-                    {dueTime?.format("DD/MM/YYYY HH:mm")}
+                    {dueTime ? (
+                      dueTime.format("DD/MM/YYYY HH:mm")
+                    ) : (
+                      <span className="text-red-600">End date is required</span>
+                    )}
                   </p>
                 </div>
               </div>
               <div className="space-y-1">
-                <Label className="text-white">Category</Label>
+                <Label className="flex justify-start mb-2 text-white text-sm">
+                  Category
+                </Label>
                 {category ? (
                   <div className="flex items-center gap-2 text-white mt-1 p-1 w-full rounded-lg bg-primary">
                     {category.icon && (
@@ -248,13 +311,23 @@ export function TaskForm() {
                     <span className="text-sm">{category.name}</span>
                   </div>
                 ) : (
-                  "No category selected"
+                  <span className="text-muted-foreground">
+                    category not entered
+                  </span>
                 )}
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={handleSubmit} className="bg-green-500">
-                Confirm Task
+              <Button
+                onClick={handleNewTask}
+                disabled={!isFormValid}
+                className={`font-semibold ${
+                  isFormValid
+                    ? "bg-ItsDone text-black hover:text-white"
+                    : "bg-gray-400 text-gray-700 cursor-not-allowed"
+                }`}
+              >
+                Save Task
               </Button>
             </CardFooter>
           </Card>
