@@ -62,7 +62,8 @@ const Categories: React.FC<CategorySidebarProps> = ({
                     </div>
                   </div>
                 ))
-              : categories.map((category, index) => (
+              : categories &&
+                categories.map((category, index) => (
                   <SidebarMenuItem key={index}>
                     <DropdownMenu
                       open={openCategory === index}

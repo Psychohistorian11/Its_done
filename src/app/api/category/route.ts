@@ -87,7 +87,6 @@ export async function GET() {
 export async function PUT(request: NextRequest) {
   try {
     const data = await request.json();
-    console.log("data received:", data);
 
 
     if (!data.id || !data.name) {

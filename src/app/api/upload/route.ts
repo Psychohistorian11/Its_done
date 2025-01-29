@@ -19,8 +19,6 @@ export async function POST(request: any) {
     const bytes = await image.arrayBuffer()
     const buffer = Buffer.from(bytes)
 
-    /*const filePath = path.join(process.cwd(), 'public', image.name)
-    await writeFile(filePath, buffer)*/
 
     const response: any = await new Promise((resolve, reject) => {
 

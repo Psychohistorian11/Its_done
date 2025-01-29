@@ -18,7 +18,7 @@ interface CategoryProps {
 
 export function SelectCategory({ categoryToSend, setCategory }: CategoryProps) {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [isLoading, setIsLoading] = useState(true); // Estado para controlar la carga
+  const [isLoading, setIsLoading] = useState(true); 
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );

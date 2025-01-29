@@ -13,7 +13,7 @@ export default function TaskFormPage() {
           good plan. Start now!
         </div>
       </div>
-      <div className="flex justify-center items-center h-screen ">
+      <div className="flex justify-center items-center h-screen">
         <TaskForm />
       </div>
     </div>

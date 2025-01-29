@@ -20,18 +20,9 @@ import Category from "@/interfaces/category";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
-  const [user, setUser] = useState({
-    name: "It's Done  ",
-    email: "m@example.com",
-    image: "",
-  });
+  const [user, setUser] = useState();
 
-  const [categories, setCategories] = useState<Category[]>([{
-    id: 0,
-    name: "It's Done",
-    color: "#00BFB3",
-    icon: "⚽"
-  }])
+  const [categories, setCategories] = useState<Category[]>();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -75,7 +66,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
         const data = await response.json();
         setCategories(data);
-        console.log("data: ", data);
       } catch (error) {
         console.error("Error fetching category", error);
       }
@@ -94,13 +84,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader className="h-16  bg-primary">
-        <NavUser isLoading={isLoading} user={data.user} />
+        <NavUser isLoading={isLoading} user={data.user!} />
       </SidebarHeader>
 
       <SidebarContent className="bg-primary">
         <DatePicker />
         <SidebarSeparator className="mx-0" />
-        <Categories isLoading={isLoading} categories={data.categories} />
+        <Categories isLoading={isLoading} categories={data.categories!} />
       </SidebarContent>
 
       <SidebarFooter className="bg-primary">

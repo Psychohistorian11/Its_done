@@ -50,7 +50,6 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    console.log("dataaaaa: ", newTask);
     return NextResponse.json(newTask);
   } catch (error) {
     console.error("Error creating task:", error);
@@ -96,6 +95,60 @@ export async function GET() {
     console.error("Error fetching tasks:", error);
     return NextResponse.json(
       { error: "An error occurred while fetching tasks." },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const data = await request.json(); // Los datos que se pasan en el cuerpo (en este caso, 'itsDone')
+
+    console.log("id: ", data.id);
+    console.log("data: ", data);
+    if (data.itsDone === undefined) {
+      return NextResponse.json(
+        { error: "'itsDone' field is required." },
+        { status: 400 }
+      );
+    }
+
+    const session = await auth();
+    const userFound = await prismadb.user.findUnique({
+      where: {
+        email: session?.user?.email!,
+      },
+    });
+
+    if (!userFound) {
+      return NextResponse.json({ error: "User not found." }, { status: 404 });
+    }
+
+    // Verificar que la tarea pertenece al usuario
+    const taskToUpdate = await prismadb.task.findUnique({
+      where: { id: data.id },
+    });
+
+    if (!taskToUpdate || taskToUpdate.userId !== userFound.id) {
+      return NextResponse.json(
+        { error: "Task not found or unauthorized." },
+        { status: 404 }
+      );
+    }
+
+    // Actualizar la tarea
+    const updatedTask = await prismadb.task.update({
+      where: { id: data.id },
+      data: {
+        itsDone: data.itsDone, // Solo actualizar 'itsDone'
+      },
+    });
+
+    return NextResponse.json(updatedTask);
+  } catch (error) {
+    console.error("Error updating task:", error);
+    return NextResponse.json(
+      { error: "Something went wrong." },
       { status: 500 }
     );
   }

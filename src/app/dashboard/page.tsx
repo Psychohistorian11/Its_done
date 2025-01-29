@@ -52,10 +52,8 @@ export default function DashboardPage() {
           </div>
         </div>
       ) : task.length > 0 ? (
-        // Muestra la lista de tareas si hay tareas y ya cargaron
         <TaskList task={task} setTask={setTask} />
       ) : (
-        // Muestra el estado vacío si no hay tareas
         <TaskEmptyState />
       )}
     </div>
