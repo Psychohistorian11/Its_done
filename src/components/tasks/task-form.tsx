@@ -64,7 +64,7 @@ export function TaskForm() {
       });
       if (response.ok) {
         console.log("Category created successfully");
-        router.push("/dashboard");
+        router.push("/task");
       }
     } catch (error) {
       console.error("Error creating new task:", error);
