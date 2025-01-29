@@ -60,7 +60,8 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+
+export async function GET(request: Request) {
   try {
     const session = await auth();
 
@@ -74,10 +75,32 @@ export async function GET() {
       return NextResponse.json({ error: "User not found." }, { status: 404 });
     }
 
-    const categories = await prismadb.task.findMany({
-      where: {
-        userId: userFound.id,
-      },
+    const { searchParams } = new URL(request.url);
+    const categoryId = parseInt(searchParams.get("categoryId")!);
+    const date = searchParams.get("date");
+    const itsDone = searchParams.get("itsDone");
+
+    const filters: any = {
+      userId: userFound.id,
+      itsDone: false,
+    };
+
+    if (categoryId) {
+      filters.categoryId = categoryId;
+    }
+
+    if (date) {
+      filters.dueTime = {
+        gte: new Date(date),
+      };
+    }
+
+    if (itsDone !== null) {
+      filters.itsDone = itsDone === "true";
+    }
+
+    const tasks = await prismadb.task.findMany({
+      where: filters,
       select: {
         id: true,
         title: true,
@@ -90,7 +113,7 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json(categories, { status: 200 });
+    return NextResponse.json(tasks, { status: 200 });
   } catch (error) {
     console.error("Error fetching tasks:", error);
     return NextResponse.json(
@@ -102,10 +125,8 @@ export async function GET() {
 
 export async function PUT(request: NextRequest) {
   try {
-    const data = await request.json(); // Los datos que se pasan en el cuerpo (en este caso, 'itsDone')
+    const data = await request.json();
 
-    console.log("id: ", data.id);
-    console.log("data: ", data);
     if (data.itsDone === undefined) {
       return NextResponse.json(
         { error: "'itsDone' field is required." },
@@ -124,7 +145,6 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: "User not found." }, { status: 404 });
     }
 
-    // Verificar que la tarea pertenece al usuario
     const taskToUpdate = await prismadb.task.findUnique({
       where: { id: data.id },
     });
@@ -136,11 +156,10 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // Actualizar la tarea
     const updatedTask = await prismadb.task.update({
       where: { id: data.id },
       data: {
-        itsDone: data.itsDone, // Solo actualizar 'itsDone'
+        itsDone: data.itsDone,
       },
     });
 

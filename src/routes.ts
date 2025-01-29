@@ -1,1 +1,1 @@
-export const privateRoutes = ['/dashboard', '/dashboard/*'];
+export const privateRoutes = ["/task", "/task/*"];

@@ -15,7 +15,7 @@ export function TaskList({ task, setTask }: TaskProps) {
   const emptyBlocks = totalBlocks - task.length;
 
   const handleAddTask = () => {
-    router.push("/dashboard/task-form");
+    router.push("/task/task-form");
   };
 
   const handleItsDone = async (selectedTask: UserTask) => {

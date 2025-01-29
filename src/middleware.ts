@@ -16,7 +16,7 @@ export default auth(async (req) => {
 
     if(isApiRoute) return   
 
-    if(isLoggedIn && isAuthRoute) return Response.redirect(`${url}/dashboard`)
+    if (isLoggedIn && isAuthRoute) return Response.redirect(`${url}/task`);
 
     if(isAuthRoute && !isLoggedIn) return 
 

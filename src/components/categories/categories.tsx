@@ -21,6 +21,7 @@ import Category from "@/interfaces/category";
 import { EditCategory } from "./edit-category";
 import { AlertDeleteCategory } from "../alert-delete-category";
 import { Skeleton } from "../ui/skeleton";
+import { useRouter } from "next/navigation";
 
 interface CategorySidebarProps {
   isLoading: boolean;
@@ -32,6 +33,7 @@ const Categories: React.FC<CategorySidebarProps> = ({
   categories,
 }) => {
   const [openCategory, setOpenCategory] = React.useState<number | null>(null);
+  const router = useRouter();
 
   const toggleDropdown = (index: number) => {
     setOpenCategory((prev) => (prev === index ? null : index));
@@ -72,6 +74,9 @@ const Categories: React.FC<CategorySidebarProps> = ({
                       }
                     >
                       <div
+                        onClick={() =>
+                          router.push(`/task/category/${category.id}`)
+                        }
                         className="flex items-center gap-2 text-white mt-1 bg-foreground p-1 w-full
                            hover:bg-white hover:text-black rounded-lg"
                       >
@@ -137,7 +142,11 @@ const Categories: React.FC<CategorySidebarProps> = ({
 
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup className="items-start">
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() =>
+                              router.push(`/task/category/${category.id}`)
+                            }
+                          >
                             <span className="flex items-center gap-4">
                               <Eye className="ml-auto size-4 text-black" />
                               See

@@ -16,7 +16,7 @@ export function AlertDeleteCategory({ category }: { category: Category }) {
   const handleDeleteCategory = async () => {
     try {
       const id = category.id;
-      const response = await fetch("api/category", {
+      const response = await fetch("/api/category", {
         method: "DELETE",
         body: JSON.stringify({ id }),
         headers: {
