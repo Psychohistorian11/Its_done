@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 
 export function DatePicker() {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
-  const [tasks, setTasks] = useState<UserTask[]>([]);
   const [pendingTasks, setPendingTasks] = useState<UserTask[]>([]);
   const [pendingDates, setPendingDates] = useState<Date[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,9 +21,10 @@ export function DatePicker() {
   };
 
   const handleDateChange = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      router.push(`/task/date/${selectedDate.toISOString()}`);
+    }
     setDate(selectedDate);
-    console.log("selected date: ", selectedDate);
-    router.push(`/task/date/${selectedDate?.toDateString()}`);
   };
 
   useEffect(() => {
@@ -43,7 +43,6 @@ export function DatePicker() {
         }
 
         const data: UserTask[] = await response.json();
-        setTasks(data);
 
         const filteredTasks = filterPendingTasks(data);
         setPendingTasks(filteredTasks);

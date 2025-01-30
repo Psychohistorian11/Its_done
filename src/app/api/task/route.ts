@@ -77,7 +77,7 @@ export async function GET(request: Request) {
 
     const { searchParams } = new URL(request.url);
     const categoryId = parseInt(searchParams.get("categoryId")!);
-    const date = searchParams.get("date");
+    const date = searchParams.get("date"); // ISO string
     const itsDone = searchParams.get("itsDone");
 
     const filters: any = {
@@ -89,8 +89,21 @@ export async function GET(request: Request) {
     }
 
     if (date) {
-      filters.dueTime = {
-        gte: new Date(date),
+      const selectedDate = new Date(date);
+      const startOfDay = new Date(
+        selectedDate.getFullYear(),
+        selectedDate.getMonth(),
+        selectedDate.getDate()
+      );
+      const endOfDay = new Date(
+        selectedDate.getFullYear(),
+        selectedDate.getMonth(),
+        selectedDate.getDate() + 1
+      );
+
+      filters.createdAt = {
+        gte: startOfDay,
+        lt: endOfDay,
       };
     }
 
@@ -121,6 +134,7 @@ export async function GET(request: Request) {
     );
   }
 }
+
 
 
 

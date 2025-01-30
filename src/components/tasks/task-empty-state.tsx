@@ -6,7 +6,7 @@ export default function TaskEmptyState() {
   const router = useRouter();
 
   const handleAddTask = () => {
-    router.push("/dashboard/task-form");
+    router.push("/task/task-form");
   };
 
   return (

@@ -19,12 +19,7 @@ export default function TaskbyDatePage() {
     const fetchTasks = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("/api/task", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(`/api/task?date=${id}`);
 
         if (!response.ok) {
           throw new Error("Failed to fetch user data");
