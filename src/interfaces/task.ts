@@ -6,7 +6,6 @@ export default interface UserTask {
   itsDone: boolean;
   description?: string;
   dueTime: Date;
-  ItsDone: boolean;
   priority: string;
   createdAt: Date;
   category: Category;

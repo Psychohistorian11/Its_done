@@ -82,7 +82,6 @@ export async function GET(request: Request) {
 
     const filters: any = {
       userId: userFound.id,
-      itsDone: false,
     };
 
     if (categoryId) {
@@ -122,6 +121,8 @@ export async function GET(request: Request) {
     );
   }
 }
+
+
 
 export async function PUT(request: NextRequest) {
   try {

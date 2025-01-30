@@ -67,7 +67,7 @@ export function TaskList({ task, setTask }: TaskProps) {
             {t.description && (
               <div>
                 <span className="font-semibold">Description</span>
-                <p className="rounded-lg mt-2 text-sm text-gray-200 line-clamp-2">
+                <p className="rounded-lg mt-2 text-sm text-gray-200">
                   {t.description}
                 </p>
               </div>

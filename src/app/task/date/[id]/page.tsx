@@ -1,12 +1,18 @@
+"use client";
+
 import TaskEmptyState from "@/components/tasks/task-empty-state";
 import { TaskList } from "@/components/tasks/task-list";
 import TaskSkeleton from "@/components/tasks/task-skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 import UserTask from "@/interfaces/task";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function TaskbyDatePage() {
   const [task, setTask] = useState<UserTask[]>([]);
+  const { id } = useParams();
+  console.log("date: ", id);
+
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
