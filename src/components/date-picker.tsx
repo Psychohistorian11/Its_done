@@ -3,6 +3,7 @@ import { SidebarGroup, SidebarGroupContent } from "@/components/ui/sidebar";
 import UserTask from "@/interfaces/task";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { Skeleton } from "./ui/skeleton";
 
 export function DatePicker() {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
@@ -62,9 +63,9 @@ export function DatePicker() {
     <SidebarGroup className="px-0 text-white">
       <SidebarGroupContent>
         {isLoading ? (
-          <p className="text-center text-gray-300 animate-pulse">
-            Cargando tareas...
-          </p>
+          <div className="flex items-center space-x-4">
+            <Skeleton className="w-[232px] ml-2 h-[300px] aspect-square rounded-xl  bg-foreground" />
+          </div>
         ) : (
           <div className="flex flex-col items-center">
             <Calendar

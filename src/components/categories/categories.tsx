@@ -22,17 +22,21 @@ import { EditCategory } from "./edit-category";
 import { AlertDeleteCategory } from "../alert-delete-category";
 import { Skeleton } from "../ui/skeleton";
 import { useRouter } from "next/navigation";
+import Loading from "../common/loading";
 
 interface CategorySidebarProps {
   isLoading: boolean;
   categories: Category[];
+  setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
 }
 
 const Categories: React.FC<CategorySidebarProps> = ({
   isLoading,
   categories,
+  setCategories,
 }) => {
   const [openCategory, setOpenCategory] = React.useState<number | null>(null);
+  const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 
   const toggleDropdown = (index: number) => {
@@ -41,6 +45,7 @@ const Categories: React.FC<CategorySidebarProps> = ({
 
   return (
     <>
+      <Loading isLoading={loading} />
       <SidebarGroup className="py-0">
         <SidebarGroupLabel
           asChild
@@ -154,14 +159,21 @@ const Categories: React.FC<CategorySidebarProps> = ({
                           </DropdownMenuItem>
                           <span className="flex items-center ">
                             <Pencil className="ml-2 size-4 text-black" />
-                            <EditCategory category={category} />
+                            <EditCategory
+                              setLoading={setLoading}
+                              category={category}
+                            />
                           </span>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
 
                         <span className="flex items-center">
                           <Eraser className="ml-2 size-4 text-black" />
-                          <AlertDeleteCategory category={category} />
+                          <AlertDeleteCategory
+                            setLoading={setLoading}
+                            category={category}
+                            setCategories={setCategories}
+                          />
                         </span>
                       </DropdownMenuContent>
                     </DropdownMenu>

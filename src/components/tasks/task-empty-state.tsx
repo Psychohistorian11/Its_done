@@ -13,7 +13,7 @@ export default function TaskEmptyState() {
     <div className="flex flex-col justify-center items-center h-screen pb-40">
       <img src="/images/fondo.png" className="w-[500px] h-[300px]" />
       <p className="text-lg text-center mb-6 text-white truncate font-semibold">
-        Start by adding your first task and organizing your day.
+        Start by adding your task and organizing your day.
       </p>
       <Button
         onClick={handleAddTask}

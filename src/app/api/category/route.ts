@@ -153,24 +153,31 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "User not found." }, { status: 404 });
     }
 
+    await prismadb.task.deleteMany({
+      where: {
+        categoryId: data.id,
+      },
+    });
+
     const deletedCategory = await prismadb.category.delete({
       where: {
         id: data.id,
       },
     });
 
-    /*TODO:
-      Eliminar todas tareas relacionadas con la categoría que esta eliminando*/
-
     return NextResponse.json(
-      { message: "Category deleted successfully.", deletedCategory },
+      {
+        message: "Category and associated tasks deleted successfully.",
+        deletedCategory,
+      },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error deleting category:", error);
+    console.error("Error deleting category and tasks:", error);
     return NextResponse.json(
-      { error: "An error occurred while deleting the category." },
+      { error: "An error occurred while deleting the category and tasks." },
       { status: 500 }
     );
   }
 }
+

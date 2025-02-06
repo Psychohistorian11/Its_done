@@ -17,12 +17,12 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import Category from "@/interfaces/category";
+import Loading from "./common/loading";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-
   const [user, setUser] = useState();
 
-  const [categories, setCategories] = useState<Category[]>();
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -82,26 +82,34 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   };
 
   return (
-    <Sidebar {...props}>
-      <SidebarHeader className="h-16  bg-primary">
-        <NavUser isLoading={isLoading} user={data.user!} />
-      </SidebarHeader>
+    <div>
+      <Loading isLoading={isLoading} />
 
-      <SidebarContent className="bg-primary">
-        <DatePicker />
-        <SidebarSeparator className="mx-0" />
-        <Categories isLoading={isLoading} categories={data.categories!} />
-      </SidebarContent>
+      <Sidebar {...props}>
+        <SidebarHeader className="h-16  bg-primary">
+          <NavUser isLoading={isLoading} user={data.user!} />
+        </SidebarHeader>
 
-      <SidebarFooter className="bg-primary">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <CategoryForm />
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
+        <SidebarContent className="bg-primary">
+          <DatePicker />
+          <SidebarSeparator className="mx-0" />
+          <Categories
+            isLoading={isLoading}
+            categories={data.categories!}
+            setCategories={setCategories}
+          />
+        </SidebarContent>
 
-      <SidebarRail />
-    </Sidebar>
+        <SidebarFooter className="bg-primary">
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <CategoryForm />
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
+
+        <SidebarRail />
+      </Sidebar>
+    </div>
   );
 }

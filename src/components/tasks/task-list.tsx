@@ -44,7 +44,6 @@ export function TaskList({ task, setTask }: TaskProps) {
   return (
     <div className="flex flex-1 flex-col gap-4 p-4">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-        {/* Bloques con tareas */}
         {task.map((t, i) => (
           <div
             key={`task-${i}`}
@@ -63,7 +62,6 @@ export function TaskList({ task, setTask }: TaskProps) {
               <h2 className="text-lg font-bold truncate">{t.title}</h2>
             </div>
 
-            {/* Descripción */}
             {t.description && (
               <div>
                 <span className="font-semibold">Description</span>
@@ -73,7 +71,6 @@ export function TaskList({ task, setTask }: TaskProps) {
               </div>
             )}
 
-            {/* Metadatos */}
             <div className="absolute bottom-4 left-4 right-4 flex justify-between">
               <div className="text-sm">
                 <p>
@@ -84,7 +81,6 @@ export function TaskList({ task, setTask }: TaskProps) {
                   <span className="font-semibold">Priority:</span> {t.priority}
                 </p>
 
-                {/* Fecha de creación */}
                 <p className="mt-2 text-xs text-gray-300">
                   Created: {new Date(t.createdAt).toLocaleDateString()}
                 </p>
@@ -105,7 +101,6 @@ export function TaskList({ task, setTask }: TaskProps) {
           </div>
         ))}
 
-        {/* Bloque para agregar nueva tarea */}
         <div className="flex flex-col justify-center aspect-square rounded-xl bg-primary h-full gap-1">
           <div className="text-sm text-muted-foreground text-white p-4 items-center flex justify-center">
             Do you have any ideas? Let's create them
@@ -120,7 +115,6 @@ export function TaskList({ task, setTask }: TaskProps) {
           </div>
         </div>
 
-        {/* Bloques vacíos */}
         {Array.from({ length: emptyBlocks }).map((_, i) => (
           <div
             key={`empty-${i}`}

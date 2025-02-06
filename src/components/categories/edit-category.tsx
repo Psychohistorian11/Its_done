@@ -26,56 +26,56 @@ const isColorLight = (hexColor: string) => {
   return luminosity > 128
 }
 
-export function EditCategory({category}: {category: Category}) {
+interface EditCategoryProps {
+  category: Category;
+  setLoading: (value: boolean) => void;
+}
 
-  const [name, setName] = useState(category.name)
-  const [color, setColor] = useState(category.color!)
-  const [icon, setIcon] = useState(category.icon) 
-  const [isLoading, setIsLoading] = useState(false) 
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false) 
-  const [isDialogOpen, setIsDialogOpen] = useState(false); 
-  
-  const textColor = isColorLight(color) ? "text-black" : "text-white"
+export function EditCategory({ category, setLoading }: EditCategoryProps) {
+  const [name, setName] = useState(category.name);
+  const [color, setColor] = useState(category.color!);
+  const [icon, setIcon] = useState(category.icon);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const textColor = isColorLight(color) ? "text-black" : "text-white";
 
   const handleEditCategory = async () => {
-    setIsDialogOpen(false); 
-    setIsLoading(true) 
+    setIsDialogOpen(false);
+    setLoading(true);
 
-    const id = category.id
+    const id = category.id;
 
-    try{
-        const response = await fetch('api/category', {
-            method: "PUT",
-            body: JSON.stringify({ name, color, icon, id }),
-            headers: {
-              'Content-Type': 'application/json'
-            },
-        })
-        if(response.ok){
-          console.log('Category created successfully')
-        }
-  
-      }catch(error){
-        console.error('Error creating new category:', error)
+    try {
+      const response = await fetch("api/category", {
+        method: "PUT",
+        body: JSON.stringify({ name, color, icon, id }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        console.log("Category created successfully");
       }
-      setIsLoading(false)
-
-  }
+    } catch (error) {
+      console.error("Error creating new category:", error);
+    }
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
 
   const handleColorChange = (newColor: string) => {
-    setColor(newColor)
-  }
+    setColor(newColor);
+  };
 
   const handleEmojiSelect = (emojiData: any) => {
-    setIcon(emojiData.emoji) 
-    setShowEmojiPicker(false)
-  }
-
+    setIcon(emojiData.emoji);
+    setShowEmojiPicker(false);
+  };
 
   return (
     <div>
-      <Loading isLoading={isLoading} />
-
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
           <Button
