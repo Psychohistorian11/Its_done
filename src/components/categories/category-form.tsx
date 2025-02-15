@@ -17,25 +17,29 @@ import EmojiPicker from 'emoji-picker-react'
 import './color-picker/color-picker.css'
 import Loading from "../common/loading"
 import { Plus } from "lucide-react"
+import Category from "@/interfaces/category";
 
 const isColorLight = (hexColor: string) => {
-  const r = parseInt(hexColor.substr(1, 2), 16)
-  const g = parseInt(hexColor.substr(3, 2), 16)
-  const b = parseInt(hexColor.substr(5, 2), 16)
-  const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b
-  return luminosity > 128
+  const r = parseInt(hexColor.substr(1, 2), 16);
+  const g = parseInt(hexColor.substr(3, 2), 16);
+  const b = parseInt(hexColor.substr(5, 2), 16);
+  const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return luminosity > 128;
+};
+
+interface CategoryFormProps {
+  setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
 }
 
-export function CategoryForm() {
+export function CategoryForm({ setCategories }: CategoryFormProps) {
+  const [name, setName] = useState("Sports");
+  const [color, setColor] = useState("#000000");
+  const [icon, setIcon] = useState("⚽");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const [name, setName] = useState("Sports")
-  const [color, setColor] = useState("#000000")
-  const [icon, setIcon] = useState("⚽") 
-  const [isLoading, setIsLoading] = useState(false) 
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false) 
-  const [isDialogOpen, setIsDialogOpen] = useState(false); 
-  
-  const textColor = isColorLight(color) ? "text-black" : "text-white"
+  const textColor = isColorLight(color) ? "text-black" : "text-white";
 
   const handleNewCategory = async () => {
     setIsDialogOpen(false);
@@ -49,7 +53,15 @@ export function CategoryForm() {
           "Content-Type": "application/json",
         },
       });
+
       if (response.ok) {
+        const newCategory = await response.json();
+
+        setCategories((prevCategories) => [
+          ...(prevCategories || []),
+          newCategory,
+        ]);
+
         console.log("Category created successfully");
       }
     } catch (error) {

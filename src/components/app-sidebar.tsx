@@ -103,7 +103,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarFooter className="bg-primary">
           <SidebarMenu>
             <SidebarMenuItem>
-              <CategoryForm />
+              <CategoryForm setCategories={setCategories} />
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarFooter>

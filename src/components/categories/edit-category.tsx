@@ -14,24 +14,28 @@ import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import ColorPicker from "./color-picker/color-picker"
 import EmojiPicker from 'emoji-picker-react'
-import './color-picker/color-picker.css'
-import Loading from "../common/loading"
-import Category from "@/interfaces/category"
+import "./color-picker/color-picker.css";
+import Category from "@/interfaces/category";
 
 const isColorLight = (hexColor: string) => {
-  const r = parseInt(hexColor.substr(1, 2), 16)
-  const g = parseInt(hexColor.substr(3, 2), 16)
-  const b = parseInt(hexColor.substr(5, 2), 16)
-  const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b
-  return luminosity > 128
-}
-
+  const r = parseInt(hexColor.substr(1, 2), 16);
+  const g = parseInt(hexColor.substr(3, 2), 16);
+  const b = parseInt(hexColor.substr(5, 2), 16);
+  const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return luminosity > 128;
+};
+  
 interface EditCategoryProps {
   category: Category;
   setLoading: (value: boolean) => void;
+  setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
 }
 
-export function EditCategory({ category, setLoading }: EditCategoryProps) {
+export function EditCategory({
+  category,
+  setLoading,
+  setCategories,
+}: EditCategoryProps) {
   const [name, setName] = useState(category.name);
   const [color, setColor] = useState(category.color!);
   const [icon, setIcon] = useState(category.icon);
@@ -47,7 +51,7 @@ export function EditCategory({ category, setLoading }: EditCategoryProps) {
     const id = category.id;
 
     try {
-      const response = await fetch("api/category", {
+      const response = await fetch("/api/category", {
         method: "PUT",
         body: JSON.stringify({ name, color, icon, id }),
         headers: {
@@ -55,6 +59,14 @@ export function EditCategory({ category, setLoading }: EditCategoryProps) {
         },
       });
       if (response.ok) {
+        const editCategory: Category = await response.json();
+
+        console.log("edit: ", editCategory);
+        setCategories((prevCategories) =>
+          prevCategories.map((cat) =>
+            cat.id === editCategory.id ? editCategory : cat
+          )
+        );
         console.log("Category created successfully");
       }
     } catch (error) {

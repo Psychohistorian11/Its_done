@@ -3,6 +3,7 @@
 import UserTask from "@/interfaces/task";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { Scroll } from "lucide-react";
 
 interface TaskProps {
   task: UserTask[];
@@ -48,26 +49,36 @@ export function TaskList({ task, setTask }: TaskProps) {
           <div
             key={`task-${i}`}
             className="relative aspect-square rounded-xl p-6 text-white shadow-md"
-            style={{ backgroundColor: t.category?.color || "#64748b" }}
+            style={{ backgroundColor: t.category?.color || "#18181b" }}
           >
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <span
-                className="bg-foreground pl-4 w-16 rounded-lg"
+                className="bg-foreground pl-2 w-16 rounded-lg flex items-center"
                 style={{
                   fontSize: "2rem",
                 }}
               >
-                {t.category?.icon}
+                {t.category?.icon ? (
+                  t.category?.icon
+                ) : (
+                  <div className="p-1">
+                    <Scroll className="size-10 " />
+                  </div>
+                )}
               </span>
               <h2 className="text-lg font-bold truncate">{t.title}</h2>
             </div>
 
-            {t.description && (
-              <div>
+            {t.description ? (
+              <div className="mt-2">
                 <span className="font-semibold">Description</span>
                 <p className="rounded-lg mt-2 text-sm text-gray-200">
                   {t.description}
                 </p>
+              </div>
+            ) : (
+              <div className="mt-2">
+                <span className="font-semibold">No Description</span>
               </div>
             )}
 
@@ -89,9 +100,10 @@ export function TaskList({ task, setTask }: TaskProps) {
               <div className="absolute right-0 bottom-0">
                 <Button
                   onClick={() => !t.itsDone && handleItsDone(t)}
-                  disabled={t.itsDone}
                   className={
-                    t.itsDone ? "bg-ItsDone cursor-not-allowed text-black" : ""
+                    t.itsDone
+                      ? "bg-ItsDone cursor-not-allowed text-black hover:bg-ItsDone"
+                      : "hover:bg-ItsDone"
                   }
                 >
                   {t.itsDone ? "It's Done" : "Pending"}

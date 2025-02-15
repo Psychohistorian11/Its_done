@@ -162,6 +162,7 @@ const Categories: React.FC<CategorySidebarProps> = ({
                             <EditCategory
                               setLoading={setLoading}
                               category={category}
+                              setCategories={setCategories}
                             />
                           </span>
                         </DropdownMenuGroup>

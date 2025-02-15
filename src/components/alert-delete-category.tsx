@@ -36,12 +36,11 @@ export function AlertDeleteCategory({
           "Content-Type": "application/json",
         },
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to delete category");
       }
-  
-      // Actualizar el estado local eliminando la categoría del array
+
       setCategories((prevCategories) =>
         prevCategories.filter((cat) => cat.id !== id)
       );

@@ -20,12 +20,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!data.category) {
-      return NextResponse.json(
-        { error: "dueTime is required field." },
-        { status: 400 }
-      );
-    }
 
     const session = await auth();
     const userFound = await prismadb.user.findUnique({
@@ -45,10 +39,10 @@ export async function POST(request: NextRequest) {
         dueTime: data.dueTime,
         itsDone: false,
         userId: userFound.id,
-        categoryId: data.category.id,
+        categoryId: data.categoryId ? data.categoryId : null,
         ...(data.createdAt && { createdAt: data.createdAt }),
       },
-    });
+    }); 
 
     return NextResponse.json(newTask);
   } catch (error) {

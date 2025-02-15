@@ -63,8 +63,13 @@ export function DatePicker() {
     <SidebarGroup className="px-0 text-white">
       <SidebarGroupContent>
         {isLoading ? (
-          <div className="flex items-center space-x-4">
-            <Skeleton className="w-[232px] ml-2 h-[300px] aspect-square rounded-xl  bg-foreground" />
+          <div className=" items-center gap-4">
+            <div>
+              <Skeleton className="w-[232px] ml-2 h-[320px] aspect-square rounded-xl  bg-foreground" />
+            </div>
+            <div>
+              <Skeleton className="w-[232px] ml-2 h-[50px] aspect-square rounded-xl mt-5  bg-foreground" />
+            </div>
           </div>
         ) : (
           <div className="flex flex-col items-center">
