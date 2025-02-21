@@ -53,7 +53,6 @@ export function TaskForm() {
       category: category ? category : null,
     };
 
-    console.log("Task Data:", taskData);
     try {
       const response = await fetch("/api/task", {
         method: "POST",

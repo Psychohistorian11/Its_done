@@ -10,7 +10,7 @@ import { useParams } from "next/navigation";
 export default function TaskbyCategoryPage() {
   const [tasks, setTasks] = useState<UserTask[]>([]);
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); 
 
   useEffect(() => {
     if (id) {
@@ -24,7 +24,7 @@ export default function TaskbyCategoryPage() {
           console.error("Error fetching user session:", error);
         }
         setIsLoading(false);
-      };
+      };  
 
       fetchCategoryTasks();
     }

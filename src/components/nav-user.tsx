@@ -29,6 +29,9 @@ import {
 } from "@/components/ui/sidebar"
 import { handleSignOut } from "@/app/api/auth/services/route"
 import { Skeleton } from "./ui/skeleton";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { auth } from "@/auth";
 
 interface Tasks {
   isLoading: boolean;
@@ -44,6 +47,47 @@ export function NavUser({ isLoading, user }: Tasks) {
     await handleSignOut();
   };
   const { isMobile } = useSidebar();
+  const [notificationsNumber, setNotificationsNumber] = useState<number>(0);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchNotificationsNumber = async () => {
+      try {
+        const response = await fetch(`/api/notification?count=${true}`);
+
+        if (!response.ok) {
+          console.error("Error fetching notifications");
+          return;
+        }
+
+        const data = await response.json();
+        setNotificationsNumber(data.count);
+      } catch (error) {
+        console.error("Error fetching notifications", error);
+      }
+    };
+
+    fetchNotificationsNumber();
+
+    const socket = new WebSocket("ws://localhost:3001");
+
+    socket.onopen = () => {
+      console.log("✅ Conectado al WebSocket");
+    };
+
+    socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+
+      if (message.type === "NOTIFICATION") {
+        setNotificationsNumber((prev) => prev + 1);
+      }
+    };
+    return () => socket.close();
+  }, []);
+
+  const handleShowNotification = () => {
+    router.push(`/task/notification/${user.email}`);
+  };
 
   return (
     <SidebarMenu>
@@ -70,6 +114,11 @@ export function NavUser({ isLoading, user }: Tasks) {
                     <span className="truncate text-xs">{user.email}</span>
                   </div>
                   <ChevronsUpDown className="ml-auto size-4 text-white" />
+                  {notificationsNumber > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-bl-lg">
+                      {notificationsNumber}
+                    </span>
+                  )}
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
             )
@@ -96,14 +145,19 @@ export function NavUser({ isLoading, user }: Tasks) {
 
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>
+                {/*<DropdownMenuItem>
                   <BadgeCheck />
                   Account
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
 
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={handleShowNotification}>
                   <Bell />
-                  Notifications
+                  <div>Notifications</div>
+                  {notificationsNumber > 0 && (
+                    <span className="absolute -right-2 bg-red-500 text-white text-xs px-2 py-1 mr-1 rounded-l-sm">
+                      {notificationsNumber}
+                    </span>
+                  )}
                 </DropdownMenuItem>
               </DropdownMenuGroup>
 

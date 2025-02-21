@@ -1,30 +1,40 @@
-import { createServer } from "http";
-import { WebSocketServer } from "ws";
+import { WebSocketServer, WebSocket } from "ws";
+import { createServer, Server } from "http";
+import "./checkDueTime";
+import UserTask from "@/interfaces/task";
+import { AppNotification } from "@/interfaces/notification";
 
-const server = createServer();
+const server: Server = createServer();
 const wss = new WebSocketServer({ server });
 
-const clients = new Set<WebSocket>();
+const clients: Set<WebSocket> = new Set();
 
-wss.on("connection", (ws: any) => {
+wss.on("connection", (ws: WebSocket) => {
+  console.log("🔗 Cliente conectado");
   clients.add(ws);
-  console.log("Client connected. Total clients:", clients.size);
 
   ws.on("close", () => {
+    console.log("❌ Cliente desconectado");
     clients.delete(ws);
-    console.log("Client disconnected. Total clients:", clients.size);
   });
 });
 
-// Función para enviar notificaciones a todos los clientes
-export function broadcastMessage(message: any) {
+export function notifyDueTimeExpired(
+  notification: AppNotification,
+  task: UserTask
+): void {
+  const message = JSON.stringify({ type: "NOTIFICATION", notification, task });
+
   clients.forEach((client) => {
-    if (client.readyState === client.OPEN) {
-      client.send(JSON.stringify(message));
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(message);
     }
   });
 }
 
-server.listen(3001, () => {
-  console.log("WebSocket server running on ws://localhost:3001");
+const PORT: number = Number(process.env.PORT) || 3001;
+server.listen(PORT, () => {
+  console.log(`🚀 WebSocket corriendo en ws://localhost:${PORT}`);
 });
+
+console.log("⚡ Servidor iniciado correctamente, preparando intervalos...");

@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   username  String   @unique
   email     String   @unique
   password  String?
@@ -29,7 +29,7 @@ model User {
 }
 
 model Category {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   name      String
   color     String?
   icon      String?
@@ -38,14 +38,14 @@ model Category {
 
   task      Task[]
 
-  userId    Int
+  userId    String
   user      User @relation(fields: [userId], references: [id])
 
   @@map("categories")
 }
 
 model Task {
-    id          Int      @id @default(autoincrement())
+    id          String      @id @default(uuid())
     title       String
     description String?
     dueTime     DateTime
@@ -54,11 +54,26 @@ model Task {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
-    userId      Int
+    notification Notification[]
+
+    userId      String
     user        User @relation(fields: [userId], references: [id])
-    categoryId  Int?
+    categoryId  String?
     category    Category? @relation(fields: [categoryId], references: [id])
 
     @@map("tasks")
+
+}
+
+model Notification {
+  id        String @id @default(uuid())
+  message   String
+  createdAt DateTime @default(now())
+  read      Boolean @default(false)
+
+  userId    String
+  taskId    String?
+
+  task Task? @relation(fields: [taskId], references: [id])
 
 }

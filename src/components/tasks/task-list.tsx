@@ -32,7 +32,7 @@ export function TaskList({ task, setTask }: TaskProps) {
       if (!response.ok) {
         throw new Error("Error updating task status");
       }
-
+      
       const updatedTasks = task.map((t) =>
         t.id === selectedTask.id ? { ...t, itsDone: true } : t
       );

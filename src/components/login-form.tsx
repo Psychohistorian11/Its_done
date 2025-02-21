@@ -41,7 +41,7 @@ export default function LoginForm({
     if (res!.error) {
       setError("email", { type: "manual", message: "Invalid credentials." });
     } else {
-      router.push("/dashboard");
+      router.push("/task");
     }
   });
 

@@ -20,7 +20,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-
     const session = await auth();
     const userFound = await prismadb.user.findUnique({
       where: {
@@ -31,7 +30,7 @@ export async function POST(request: NextRequest) {
     if (!userFound) {
       return NextResponse.json({ error: "User not found." }, { status: 404 });
     }
-
+    console.log("data: ", data);
     const newTask = await prismadb.task.create({
       data: {
         title: data.title,
@@ -39,10 +38,10 @@ export async function POST(request: NextRequest) {
         dueTime: data.dueTime,
         itsDone: false,
         userId: userFound.id,
-        categoryId: data.categoryId ? data.categoryId : null,
+        categoryId: data.category.id ? data.category.id : null,
         ...(data.createdAt && { createdAt: data.createdAt }),
       },
-    }); 
+    });
 
     return NextResponse.json(newTask);
   } catch (error) {
@@ -53,7 +52,6 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
 
 export async function GET(request: Request) {
   try {
@@ -70,8 +68,8 @@ export async function GET(request: Request) {
     }
 
     const { searchParams } = new URL(request.url);
-    const categoryId = parseInt(searchParams.get("categoryId")!);
-    const date = searchParams.get("date"); // ISO string
+    const categoryId = searchParams.get("categoryId")!;
+    const date = searchParams.get("date");
     const itsDone = searchParams.get("itsDone");
 
     const filters: any = {
