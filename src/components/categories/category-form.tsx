@@ -61,8 +61,6 @@ export function CategoryForm({ setCategories }: CategoryFormProps) {
           ...(prevCategories || []),
           newCategory,
         ]);
-
-        console.log("Category created successfully");
       }
     } catch (error) {
       console.error("Error creating new category:", error);
@@ -74,7 +72,7 @@ export function CategoryForm({ setCategories }: CategoryFormProps) {
     setColor(newColor);
   };
 
-  const handleEmojiSelect = (emojiData: any) => {
+  const handleEmojiSelect = (emojiData: { emoji: string }) => {
     setIcon(emojiData.emoji);
     setShowEmojiPicker(false);
   };
@@ -98,7 +96,7 @@ export function CategoryForm({ setCategories }: CategoryFormProps) {
           <DialogHeader>
             <DialogTitle>New Category</DialogTitle>
             <DialogDescription>
-              Create your new category here. Click save when you're done.
+              Create your new category here. Click save when you&apos;re done.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4 px-8">

@@ -96,14 +96,7 @@ const Categories: React.FC<CategorySidebarProps> = ({
                             {category.icon}
                           </span>
                         )}
-                        <span
-                          className="text-sm flex-1"
-                          onClick={() =>
-                            console.log(`Navigating to ${category.name}`)
-                          }
-                        >
-                          {category.name}
-                        </span>
+                        <span className="text-sm flex-1">{category.name}</span>
 
                         <DropdownMenuTrigger asChild>
                           <button

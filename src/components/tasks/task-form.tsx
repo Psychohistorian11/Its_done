@@ -62,7 +62,6 @@ export function TaskForm() {
         },
       });
       if (response.ok) {
-        console.log("Category created successfully");
         router.push("/task");
       }
     } catch (error) {

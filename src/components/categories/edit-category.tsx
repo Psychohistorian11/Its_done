@@ -61,13 +61,11 @@ export function EditCategory({
       if (response.ok) {
         const editCategory: Category = await response.json();
 
-        console.log("edit: ", editCategory);
         setCategories((prevCategories) =>
           prevCategories.map((cat) =>
             cat.id === editCategory.id ? editCategory : cat
           )
         );
-        console.log("Category created successfully");
       }
     } catch (error) {
       console.error("Error creating new category:", error);
@@ -81,7 +79,7 @@ export function EditCategory({
     setColor(newColor);
   };
 
-  const handleEmojiSelect = (emojiData: any) => {
+  const handleEmojiSelect = (emojiData: { emoji: string }) => {
     setIcon(emojiData.emoji);
     setShowEmojiPicker(false);
   };
@@ -102,7 +100,7 @@ export function EditCategory({
           <DialogHeader>
             <DialogTitle>Edit Category</DialogTitle>
             <DialogDescription>
-              Edit your category here. Click save when you're done.
+              Edit your category here. Click save when you&apos;re done.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4 px-8">

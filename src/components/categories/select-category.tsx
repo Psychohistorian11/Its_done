@@ -18,10 +18,7 @@ interface CategoryProps {
 
 export function SelectCategory({ categoryToSend, setCategory }: CategoryProps) {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [isLoading, setIsLoading] = useState(true); 
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
-    null
-  );
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -51,7 +48,6 @@ export function SelectCategory({ categoryToSend, setCategory }: CategoryProps) {
   }, []);
 
   const handleSelectCategory = (category: Category) => {
-    setSelectedCategory(category);
     setCategory(category);
   };
 
@@ -121,7 +117,7 @@ export function SelectCategory({ categoryToSend, setCategory }: CategoryProps) {
               <span className="text-white flex">
                 no categories, create them here
               </span>
-              <CategoryForm />
+              <CategoryForm setCategories={setCategories} />
             </div>
           )}
         </SidebarMenu>

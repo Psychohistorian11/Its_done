@@ -37,7 +37,6 @@ export function NotificationListDemo() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Notification updated", data.response);
         setNotifications((prev) =>
           prev.filter((n) => n.id !== data.response.id)
         );
@@ -63,7 +62,6 @@ export function NotificationListDemo() {
               }`}
               onClick={() => notification.task && handleTaskClick(notification)}
             >
-              {/* Ícono de la tarea si existe */}
               {notification.task?.category ? (
                 <div
                   className="w-10 h-10 flex items-center justify-center text-xl font-semibold rounded-full"
@@ -85,7 +83,6 @@ export function NotificationListDemo() {
                   {new Date(notification.createdAt).toLocaleString()}
                 </span>
 
-                {/* Información de la tarea si existe */}
                 {notification.task && (
                   <div className="mt-2 p-2  rounded-md bg-primary">
                     <p className="text-sm font-semibold text-white">

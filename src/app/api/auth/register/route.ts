@@ -1,49 +1,49 @@
 import { NextRequest, NextResponse } from "next/server";
-import bcrypt from 'bcryptjs';
-import prismadb from '@/lib/prismadb';
+import bcrypt from "bcryptjs";
+import prismadb from "@/lib/prismadb";
 
-export async function POST(request: NextRequest){
-    const data = await request.json()
-    const usernameFound = await prismadb.user.findUnique({
-        where: {
-            username: data.username
-        }
-    })
-    if(usernameFound){
-        return NextResponse.json({
-            message: "username already exist"
-        }, 
-        {
-            status: 400
-        })
-    }
+export async function POST(request: NextRequest) {
+  const data = await request.json();
 
-    const emailFound = await prismadb.user.findUnique({
-        where: {
-            email: data.email
-        }
-    })
+  const usernameFound = await prismadb.user.findUnique({
+    where: { username: data.username },
+  });
 
-    if(emailFound){
-        return NextResponse.json({
-            message: "email already exist"
-        },{
-            status: 400
-        })
-    }
+  if (usernameFound) {
+    return NextResponse.json(
+      { message: "username already exists" },
+      { status: 400 }
+    );
+  }
 
-    const hashedPassword = await bcrypt.hash(data.password, 10)
+  const emailFound = await prismadb.user.findUnique({
+    where: { email: data.email },
+  });
 
-    const newUser = await prismadb.user.create({
-        data : {
-            username: data.username,
-            email: data.email,
-            password: hashedPassword,
-            ...(data.image && { image: data.image })
-        }
-    })
+  if (emailFound) {
+    return NextResponse.json(
+      { message: "email already exists" },
+      { status: 400 }
+    );
+  }
 
-    const {password: _, ...user} = newUser
+  const hashedPassword = await bcrypt.hash(data.password, 10);
 
-    return NextResponse.json(user)
+  const newUser = await prismadb.user.create({
+    data: {
+      username: data.username,
+      email: data.email,
+      password: hashedPassword,
+      ...(data.image && { image: data.image }),
+    },
+    select: {
+      id: true,
+      username: true,
+      email: true,
+      image: true,
+      createdAt: true,
+    },
+  });
+
+  return NextResponse.json(newUser);
 }

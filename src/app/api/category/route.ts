@@ -14,10 +14,12 @@ export async function POST(request: NextRequest) {
     }
 
     const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
+
     const userFound = await prismadb.user.findUnique({
-      where: {
-        email: session?.user?.email!,
-      },
+      where: { email: session.user.email },
     });
 
     if (!userFound) {
@@ -43,27 +45,24 @@ export async function POST(request: NextRequest) {
   }
 }
 
-
 export async function GET() {
   try {
     const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
 
     const userFound = await prismadb.user.findUnique({
-      where: {
-        email: session?.user?.email!,
-      },
+      where: { email: session.user.email },
     });
 
     if (!userFound) {
-      return NextResponse.json(
-        { error: "User not found." },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "User not found." }, { status: 404 });
     }
 
     const categories = await prismadb.category.findMany({
       where: {
-        userId: userFound.id, 
+        userId: userFound.id,
       },
       select: {
         id: true,
@@ -83,11 +82,9 @@ export async function GET() {
   }
 }
 
-
 export async function PUT(request: NextRequest) {
   try {
     const data = await request.json();
-
 
     if (!data.id || !data.name) {
       return NextResponse.json(
@@ -97,17 +94,16 @@ export async function PUT(request: NextRequest) {
     }
 
     const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
+
     const userFound = await prismadb.user.findUnique({
-      where: {
-        email: session?.user?.email!,
-      },
+      where: { email: session.user.email },
     });
 
     if (!userFound) {
-      return NextResponse.json(
-        { error: "User not found." },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "User not found." }, { status: 404 });
     }
 
     const updatedCategory = await prismadb.category.update({
@@ -143,10 +139,12 @@ export async function DELETE(request: NextRequest) {
     }
 
     const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
+
     const userFound = await prismadb.user.findUnique({
-      where: {
-        email: session?.user?.email!,
-      },
+      where: { email: session.user.email },
     });
 
     if (!userFound) {

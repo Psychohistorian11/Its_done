@@ -33,7 +33,21 @@ export default function TaskPage() {
       setIsLoading(false);
     };
 
+    const verifyUser = async () => {
+      const response = await fetch("/api/auth/services-signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        console.error("Failed to verify user");
+      }
+    };
+
     fetchTasks();
+    verifyUser();
   }, []);
 
   return (

@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import Image from "next/image";
 
 export default function TaskEmptyState() {
   const router = useRouter();
@@ -11,7 +12,13 @@ export default function TaskEmptyState() {
 
   return (
     <div className="flex flex-col justify-center items-center h-screen pb-40">
-      <img src="/images/fondo.png" className="w-[500px] h-[300px]" />
+      <Image
+        width={500}
+        height={300}
+        alt="task-empty"
+        src="/images/fondo.png"
+        className="w-[500px] h-[300px]"
+      />
       <p className="text-lg text-center mb-6 text-white truncate font-semibold">
         Start by adding your task and organizing your day.
       </p>

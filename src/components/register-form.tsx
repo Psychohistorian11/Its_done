@@ -11,25 +11,26 @@ import UserRegister from "@/interfaces/user"
 import { useRouter } from "next/navigation"
 import GoogleService from "./common/googleService"
 import GithubService from "./common/githubService"
+import Image from "next/image";
 
 export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  
-  const {register, handleSubmit, formState:{errors}, setError} = useForm()
-  const [file, setFile] = useState<any>(null)
-  const [serverError, setServerError] = useState('');
-    const [imageUrl, setImageUrl] = useState('')
-  const router = useRouter()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm();
+  const [serverError, setServerError] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const router = useRouter();
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files ? e.target.files[0] : null;
 
     if (selectedFile) {
-      setFile(selectedFile); 
-      console.log(selectedFile)
-
       const formData = new FormData();
       formData.append("file", selectedFile);
 
@@ -44,7 +45,7 @@ export function RegisterForm({
         }
 
         const data = await response.json();
-        setImageUrl(data.url)
+        setImageUrl(data.url);
         console.log("Archivo subido con éxito", data);
       } catch (error) {
         console.error("Error en la subida del archivo:", error);
@@ -52,31 +53,32 @@ export function RegisterForm({
     }
   };
 
-
   const onSubmit = handleSubmit(async (data) => {
-
-    if(data.password !== data.confirmPassword){
-      setError("confirmPassword",{type: 'server', message: "Password do not match"})
-      return
+    if (data.password !== data.confirmPassword) {
+      setError("confirmPassword", {
+        type: "server",
+        message: "Password do not match",
+      });
+      return;
     }
     const dataToSend: UserRegister = {
       username: data.username,
       email: data.email,
       password: data.password,
-      ...(imageUrl && { image: imageUrl })
+      ...(imageUrl && { image: imageUrl }),
     };
-  
+
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
         body: JSON.stringify(dataToSend),
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
-      if(response.ok){
-        router.push('login')
-      }else {
+      if (response.ok) {
+        router.push("login");
+      } else {
         const errorData = await response.json();
         if (errorData.message === "username already exist") {
           setError("username", { type: "server", message: errorData.message });
@@ -87,10 +89,10 @@ export function RegisterForm({
         }
       }
     } catch (error) {
+      console.error("Failed to connect to the server:", error);
       setServerError("Failed to connect to the server.");
     }
   });
-  
 
   return (
     <div className={cn("flex flex-col gap-6 ", className)} {...props}>
@@ -101,7 +103,7 @@ export function RegisterForm({
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl font-bold">Welcome</h1>
                 <p className="text-balance text-muted-foreground">
-                  Sign in to your It's Done account
+                  Sign in to your It&apos;s Done account
                 </p>
               </div>
               <div className="grid gap-2 ">
@@ -218,22 +220,31 @@ export function RegisterForm({
               />
               <div className="md:w-full md:h-full">
                 {imageUrl ? (
-                  <img className="h-full w-full" src={imageUrl}></img>
+                  <Image
+                    alt="image"
+                    width={400}
+                    height={400}
+                    className="h-full w-full"
+                    src={imageUrl}
+                  />
                 ) : (
-                  <img
+                  <Image
+                    width={400}
+                    height={400}
+                    alt="image"
                     className="h-full w-full object-cover"
                     src="/images/profilePicture.png"
-                  ></img>
+                  />
                 )}
               </div>
             </div>
           </form>
         </CardContent>
       </Card>
-      <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
+      {/*<div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
         and <a href="#">Privacy Policy</a>.
-      </div>
+      </div> */}
     </div>
   );
 }

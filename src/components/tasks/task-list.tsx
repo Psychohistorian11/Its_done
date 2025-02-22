@@ -115,7 +115,7 @@ export function TaskList({ task, setTask }: TaskProps) {
 
         <div className="flex flex-col justify-center aspect-square rounded-xl bg-primary h-full gap-1">
           <div className="text-sm text-muted-foreground text-white p-4 items-center flex justify-center">
-            Do you have any ideas? Let's create them
+            <p>Do you have any ideas? Let&apos;s create them</p>
           </div>
           <div className="flex justify-center items-center">
             <Button

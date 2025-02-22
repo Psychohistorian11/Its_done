@@ -21,10 +21,12 @@ export async function POST(request: NextRequest) {
     }
 
     const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
+
     const userFound = await prismadb.user.findUnique({
-      where: {
-        email: session?.user?.email!,
-      },
+      where: { email: session.user.email },
     });
 
     if (!userFound) {
@@ -56,11 +58,12 @@ export async function POST(request: NextRequest) {
 export async function GET(request: Request) {
   try {
     const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
 
     const userFound = await prismadb.user.findUnique({
-      where: {
-        email: session?.user?.email!,
-      },
+      where: { email: session.user.email },
     });
 
     if (!userFound) {
@@ -68,13 +71,16 @@ export async function GET(request: Request) {
     }
 
     const { searchParams } = new URL(request.url);
-    const categoryId = searchParams.get("categoryId")!;
+    const categoryId = searchParams.get("categoryId") || null;
     const date = searchParams.get("date");
     const itsDone = searchParams.get("itsDone");
 
-    const filters: any = {
-      userId: userFound.id,
-    };
+    const filters: {
+      userId: string;
+      categoryId?: string | null;
+      createdAt?: { gte: Date; lt: Date };
+      itsDone?: boolean;
+    } = { userId: userFound.id };
 
     if (categoryId) {
       filters.categoryId = categoryId;
@@ -127,9 +133,6 @@ export async function GET(request: Request) {
   }
 }
 
-
-
-
 export async function PUT(request: NextRequest) {
   try {
     const data = await request.json();
@@ -142,10 +145,12 @@ export async function PUT(request: NextRequest) {
     }
 
     const session = await auth();
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
+
     const userFound = await prismadb.user.findUnique({
-      where: {
-        email: session?.user?.email!,
-      },
+      where: { email: session.user.email },
     });
 
     if (!userFound) {

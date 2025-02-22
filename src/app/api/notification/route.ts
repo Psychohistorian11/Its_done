@@ -9,12 +9,16 @@ export async function GET(req: Request) {
 
     const session = await auth();
 
+    console.log("session", session);
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
+
     const userFound = await prismadb.user.findUnique({
-      where: {
-        email: session?.user?.email!,
-      },
+      where: { email: session.user.email },
     });
 
+    console.log("userFound: ", userFound);
     const userId = userFound!.id;
 
     if (!userFound) {

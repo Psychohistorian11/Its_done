@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Button } from '../ui/button';
-import { handleGoogleSignIn } from '@/app/api/auth/services/route';
+import { handleGoogleSignIn } from "@/components/services/route";
 
 interface ChildProps {
     login: boolean;
