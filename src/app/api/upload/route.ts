@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
@@ -7,6 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export async function POST(request: any) {
   const data = await request.formData();
   const image = data.get("file");
@@ -35,3 +36,4 @@ export async function POST(request: any) {
     url: response.secure_url,
   });
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
