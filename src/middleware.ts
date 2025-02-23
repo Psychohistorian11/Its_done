@@ -8,7 +8,7 @@ export default auth(async (req) => {
 
     const isLoggedIn = !!req.auth;
     const {nextUrl} = req
-    const url =  'http://localhost:3000'
+    const url = "https://its-done.onrender.com";
     const isPrivateRoute = privateRoutes.includes(nextUrl.pathname);
     const isAuthRoute = nextUrl.pathname.includes('/login') || 
     nextUrl.pathname.includes('/register')
