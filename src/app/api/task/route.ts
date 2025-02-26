@@ -32,7 +32,6 @@ export async function POST(request: NextRequest) {
     if (!userFound) {
       return NextResponse.json({ error: "User not found." }, { status: 404 });
     }
-    console.log("data: ", data);
     const newTask = await prismadb.task.create({
       data: {
         title: data.title,
@@ -40,7 +39,7 @@ export async function POST(request: NextRequest) {
         dueTime: data.dueTime,
         itsDone: false,
         userId: userFound.id,
-        categoryId: data.category.id ? data.category.id : null,
+        categoryId: data.category ? data.category.id : null,
         ...(data.createdAt && { createdAt: data.createdAt }),
       },
     });
