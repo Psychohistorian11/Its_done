@@ -59,7 +59,7 @@ export function NavUser({ isLoading, user }: Tasks) {
 
     fetchNotificationsNumber();
 
-    const socket = new WebSocket("wws://its-done-web-socket.onrender.com");
+    const socket = new WebSocket("https://its-done-web-socket.onrender.com");
 
     socket.onopen = () => {
       console.log("✅ Conectado al WebSocket");
