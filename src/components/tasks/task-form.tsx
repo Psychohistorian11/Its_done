@@ -83,7 +83,7 @@ export function TaskForm() {
         </TabsList>
 
         <TabsContent value="task">
-          <Card>
+          <Card className="border-white">
             <CardHeader>
               <CardTitle className="flex justify-start text-white">
                 Task
@@ -102,7 +102,7 @@ export function TaskForm() {
                   Title
                 </Label>
                 <Input
-                  className="text-white"
+                  className="text-white border-white"
                   required
                   id="title"
                   value={title}
@@ -119,7 +119,7 @@ export function TaskForm() {
                   Description
                 </Label>
                 <Textarea
-                  className="text-white"
+                  className="text-white border-white"
                   placeholder="Type the description of task here."
                   value={description}
                   onChange={(e) => {
@@ -132,7 +132,7 @@ export function TaskForm() {
         </TabsContent>
 
         <TabsContent value="task">
-          <Card>
+          <Card className="border-white">
             <CardHeader>
               <CardTitle className="flex justify-start text-white">
                 Priority
@@ -147,7 +147,7 @@ export function TaskForm() {
         </TabsContent>
 
         <TabsContent value="time">
-          <Card>
+          <Card className="border-white">
             <CardHeader>
               <CardTitle className="flex justify-start mb-2 mt-4 text-white">
                 Time
@@ -172,7 +172,7 @@ export function TaskForm() {
         </TabsContent>
 
         <TabsContent value="time">
-          <Card>
+          <Card className="border-white">
             <CardContent className="space-y-2">
               <div className="space-y-2 pt-2">
                 <Label
@@ -190,7 +190,7 @@ export function TaskForm() {
         </TabsContent>
 
         <TabsContent value="category">
-          <Card>
+          <Card className="border-white">
             <CardHeader>
               <CardTitle className="flex justify-start mb-2 mt-4 text-white">
                 Select the category
@@ -210,19 +210,21 @@ export function TaskForm() {
         </TabsContent>
 
         <TabsContent value="summary">
-          <Card>
+          <Card className="border-white">
             <CardHeader>
-              <CardTitle>Summary</CardTitle>
+              <CardTitle className="flex justify-start mb-2 mt-4 text-white">
+                Summary
+              </CardTitle>
               <CardDescription>
                 Check the information of task before to save
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="space-y-1">
-                <Label className="flex justify-start mb-2 text-white text-sm font-semibold leading-none tracking-tight">
+                <Label className="flex justify-start mb-4 text-white text-sm font-semibold leading-none tracking-tight">
                   Title
                 </Label>
-                <p className="text-white flex justify-start border border-primary rounded-sm p-2">
+                <p className="text-white flex justify-start border border-white rounded-sm p-2">
                   {title ? (
                     title
                   ) : (
@@ -235,12 +237,14 @@ export function TaskForm() {
                   <span className="text-red-600">Title is required</span>
                 )}
               </div>
+
               {!title && <span>Title is required</span>}
               <div className="space-y-1">
                 <Label className="flex justify-start mb-2 text-white text-sm font-semibold leading-none tracking-tight">
                   Description
                 </Label>
-                <p className="text-white flex justify-start border border-primary rounded-sm p-2">
+
+                <p className="text-white flex justify-start border border-white rounded-sm p-2">
                   {description ? (
                     description
                   ) : (
@@ -251,16 +255,17 @@ export function TaskForm() {
                 </p>
               </div>
 
-              <div className="space-y-1">
+              <div className="space-y-1 pt-2">
                 <Label className="flex justify-start mb-2 text-white text-sm font-semibold leading-none tracking-tight">
                   Priority
                 </Label>
-                <p className="text-white flex justify-start border border-primary rounded-sm p-2">
+                <p className="text-white flex justify-start border border-white rounded-sm p-2">
                   {priority}
                 </p>
               </div>
+
               <div className="gap-2 flex justify-between mt-2">
-                <div className=" rounded-sm border border-primary p-2 w-full">
+                <div className=" rounded-sm border border-white p-2 w-full">
                   <Label className="text-white font-semibold leading-none tracking-tight">
                     Start date
                   </Label>

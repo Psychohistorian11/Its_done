@@ -27,7 +27,7 @@ async function checkDueTasks() {
       await prismadb.task.update({
         where: { id: task.id },
         data: { itsDone: true },
-      });
+      }); 
 
       notifyDueTimeExpired(notification, task);
     }

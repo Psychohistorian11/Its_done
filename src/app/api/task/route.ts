@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
         title: data.title,
         description: data.description,
         dueTime: data.dueTime,
+        priority: data.priority,
         itsDone: false,
         userId: userFound.id,
         categoryId: data.category ? data.category.id : null,

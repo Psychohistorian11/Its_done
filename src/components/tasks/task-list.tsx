@@ -86,18 +86,18 @@ export function TaskList({ task, setTask }: TaskProps) {
               <div className="text-sm">
                 <p>
                   <span className="font-semibold">Due:</span>{" "}
-                  {new Date(t.dueTime).toLocaleDateString()}
+                  {new Date(t.dueTime).toLocaleString()}
                 </p>
                 <p>
                   <span className="font-semibold">Priority:</span> {t.priority}
                 </p>
 
                 <p className="mt-2 text-xs text-gray-300">
-                  Created: {new Date(t.createdAt).toLocaleDateString()}
+                  Created: {new Date(t.createdAt).toLocaleString()}
                 </p>
               </div>
 
-              <div className="absolute right-0 bottom-0">
+              <div className="absolute right-0 bottom-0 p-0">
                 <Button
                   onClick={() => !t.itsDone && handleItsDone(t)}
                   className={

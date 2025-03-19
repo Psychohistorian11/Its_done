@@ -17,12 +17,12 @@ import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import { Scroll } from "lucide-react";
 
 export default function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-
   const {
     register,
     handleSubmit,
@@ -50,7 +50,7 @@ export default function LoginForm({
       <Card className="bg-white">
         <CardHeader className="text-center ">
           <CardTitle className="text-xl">Welcome back</CardTitle>
-          <CardDescription>
+          <CardDescription className="text-center">
             Login with your Github or Google account
           </CardDescription>
         </CardHeader>
@@ -126,10 +126,6 @@ export default function LoginForm({
           </form>
         </CardContent>
       </Card>
-      {/*<div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a]:hover:text-primary  ">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
-      </div>*/}
     </div>
   );
 }

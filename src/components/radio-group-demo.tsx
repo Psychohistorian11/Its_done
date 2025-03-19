@@ -12,7 +12,7 @@ export function RadioGroupDemo({ priority, setPriority }: PriorityProps) {
   };
 
   return (
-    <div className="border border-primary p-4 rounded-sm">
+    <div className="border border-white p-4 rounded-sm">
       <RadioGroup
         defaultValue="comfortable"
         className="flex text-white justify-between"
